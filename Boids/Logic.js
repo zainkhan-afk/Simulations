@@ -57,9 +57,9 @@ class Logic{
 
 				let boidDiff = p5.Vector.sub(boid1.pos, boid2.pos);
 
-				if (boidDiff.mag < this.visualRange){
+				if (boidDiff.mag() < this.visualRange){
 					// Seperation
-					if(boidDiff.mag < this.protectedRadius){
+					if(boidDiff.mag() < this.protectedRadius){
 						distInProtectedRange.add(boidDiff);
 					}
 					// Alignment
@@ -73,8 +73,8 @@ class Logic{
 			}
 
 
-			console.log("\n");
-			console.log(avgBoidPos);
+			// console.log("\n");
+			// console.log(avgBoidPos);
 			if (neighboringBoids>0){
 				alignmentVel.mult(1/neighboringBoids);
 				alignmentVel.sub(boid1.vel);
@@ -92,12 +92,12 @@ class Logic{
 			avgBoidPos.mult(this.centeringFactor);
 			turnVel.mult(this.turnFactor);
 
-			console.log(avgBoidPos);
+			// console.log(avgBoidPos);
 
 			boid1.vel.add(distInProtectedRange);
 			boid1.vel.add(alignmentVel);
 			boid1.vel.add(avgBoidPos);
-			// boid1.vel.add(turnVel);
+			boid1.vel.add(turnVel);
 
 			boid1.Update(deltaT);
 		}

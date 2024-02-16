@@ -1,4 +1,4 @@
-const numBoids = 250;
+const numBoids = 500;
 const protectedRadius = 25;
 const visualRange = 100;
 const borderMargin = 100;

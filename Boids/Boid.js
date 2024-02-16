@@ -9,12 +9,12 @@ class Boid{
 	}
 
 	Update(deltaT){
-		// if(this.vel.mag() > this.maxVel){ 
-		// 	this.vel.setMag(this.maxVel);
-		// }
-		// if(this.vel.mag() < this.minVel){ 
-		// 	this.vel.setMag(this.minVel);
-		// }
+		if(this.vel.mag() > this.maxVel){ 
+			this.vel.setMag(this.maxVel);
+		}
+		if(this.vel.mag() < this.minVel){ 
+			this.vel.setMag(this.minVel);
+		}
 		this.rotation = this.vel.heading();
 		this.pos.add(p5.Vector.mult(this.vel, deltaT));
 	}
