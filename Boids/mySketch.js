@@ -1,16 +1,16 @@
 const numBoids = 500;
-const protectedRadius = 25;
-const visualRange = 100;
+const protectedRadius = 20;
+const visualRange = 50;
 const borderMargin = 100;
 
-const avoidFactor = 0.05;
+const avoidFactor = 0.01;
 const alignmentFactor = 0.05;
-const centeringFactor = 0.005;
-const turnFactor = 0.02;
+const centeringFactor = 0.001;
+const turnFactor = 0.01;
 
 const deltaT = 1;
-const maxVel = 7;
-const minVel = 3;
+const maxVel = 3;
+const minVel = 1;
 
 let graphics;
 let logic;
