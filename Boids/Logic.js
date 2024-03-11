@@ -72,9 +72,6 @@ class Logic{
 
 			}
 
-
-			// console.log("\n");
-			// console.log(avgBoidPos);
 			if (neighboringBoids>0){
 				alignmentVel.mult(1/neighboringBoids);
 				alignmentVel.sub(boid1.vel);
@@ -91,8 +88,6 @@ class Logic{
 			alignmentVel.mult(this.alignmentFactor);
 			avgBoidPos.mult(this.centeringFactor);
 			turnVel.mult(this.turnFactor);
-
-			// console.log(avgBoidPos);
 
 			boid1.vel.add(distInProtectedRange);
 			boid1.vel.add(alignmentVel);
