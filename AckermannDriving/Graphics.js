@@ -3,10 +3,8 @@ class Graphics{
 	}
 
 	DrawCar(car){
-		// imageMode(CENTER);
-		// image(this.carSprite, car.position.x, car.position.y);
-		// drawingContext.drawImage(this.carSprit,mouseX,mouseY);
-
+		imageMode(CENTER);
+		image(car.carSprite, car.position.x, car.position.y);
 
 
 		// Drawing main car body
