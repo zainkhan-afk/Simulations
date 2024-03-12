@@ -5,10 +5,10 @@ class Kinematics{
 	}
 
 	GetWheelAngles(steerAngle){
-		let innerWheelAngle = atan2((2*this.carLength*sin(steerAngle)) / (2*this.carLength*cos(steerAngle) - this.carWidth*sin(steerAngle)));
-		let outerWheelAngle = atan2((2*this.carLength*sin(steerAngle)) / (2*this.carLength*cos(steerAngle) + this.carWidth*sin(steerAngle)));
+		let innerWheelAngle = atan2((2*this.carLength*sin(steerAngle)), (2*this.carLength*cos(steerAngle) - this.carWidth*sin(steerAngle)));
+		let outerWheelAngle = atan2((2*this.carLength*sin(steerAngle)), (2*this.carLength*cos(steerAngle) + this.carWidth*sin(steerAngle)));
 
-		let wheelAngles = [innerWheelAngle, outerWheelAngle];
+		let wheelAngles = [outerWheelAngle, innerWheelAngle];
 
 		return wheelAngles;
 	}
