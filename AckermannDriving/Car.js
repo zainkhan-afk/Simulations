@@ -15,7 +15,7 @@ class Car{
 
 		this.carKinematics = new Kinematics(this.carWidth, this.carLength);
 
-		this.carSprite = loadImage('sprites/car_sprite.png');
+		this.carSprite = loadImage('https://raw.githubusercontent.com/zainkhan-afk/Simulations/main/AckermannDriving/sprites/car_sprite.png');
 
 
 		// this.carSprite = new Image();
