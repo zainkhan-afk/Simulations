@@ -11,6 +11,8 @@ class Car{
 		this.carLength = 40;
 		this.wheelRadius = 6;
 
+		this.wheelTrailSize = 100;
+
 		this.carKinematics = new Kinematics(this.carWidth, this.carLength);
 
 		this.carBaseBodyPts = [[- this.carLength/2, - this.carWidth/2], 
@@ -20,6 +22,7 @@ class Car{
 			
 		this.carTranformedBodyPts = [];
 		this.carTranformedWheelLinePts = [];
+		this.wheelTrail = [[],[],[],[]];
 
 		this.steerAngle = 0;
 		this.forwardDirectionVel = 0;
@@ -31,6 +34,18 @@ class Car{
 	}
 
 
+	RemoveOldTyreTracks(){
+		for (let i = 0; i < this.wheelTrail.length; i++){
+			for (let j = 0; j < this.wheelTrail[i].length; j++)
+			{
+				if (j > this.wheelTrailSize)
+				{
+					this.wheelTrail[i].splice(0, this.wheelTrail[i].length - this.wheelTrailSize)
+				}
+			}
+		}
+	}
+
 	CalculateCarPts(){
 		this.carTranformedBodyPts = [];
 		this.carTranformedWheelLinePts = [];
@@ -40,6 +55,7 @@ class Car{
 			let x =  this.carBaseBodyPts[i][0]*cos(this.heading) - this.carBaseBodyPts[i][1]*sin(this.heading) + this.position.x;
 			let y =  this.carBaseBodyPts[i][0]*sin(this.heading) + this.carBaseBodyPts[i][1]*cos(this.heading) + this.position.y;
 			append(this.carTranformedBodyPts, [x, y]);
+			append(this.wheelTrail[i], [x, y]);
 
 
 			let wheelOffset = 0;
@@ -57,16 +73,10 @@ class Car{
 			let wheelX2 = x - this.wheelRadius*cos(this.heading - wheelOffset);
 			let wheelY2 = y - this.wheelRadius*sin(this.heading - wheelOffset);
 
-			// if (i == 0)
-			// {
-			// 	wheelX1 =  wheelX1*cos(wheelAngles[0]) + wheelY1*sin(wheelAngles[0]);
-			// 	wheelY1 = -wheelX1*sin(wheelAngles[0]) + wheelY1*cos(wheelAngles[0]);
-			// 	wheelX2 =  wheelX2*cos(wheelAngles[1]) + wheelY2*sin(wheelAngles[1]);
-			// 	wheelY2 = -wheelX2*sin(wheelAngles[1]) + wheelY2*cos(wheelAngles[1]);
-			// }
-
 			append(this.carTranformedWheelLinePts, [wheelX1, wheelY1, wheelX2, wheelY2]);
 		}
+
+		this.RemoveOldTyreTracks();
 	}
 
 	Step(){

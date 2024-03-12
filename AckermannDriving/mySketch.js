@@ -35,6 +35,6 @@ function draw()
 	CheckInput();
 	car.Step();
 	
-	background(0);
+	background(255);
 	graphics.Draw(car);
 }
