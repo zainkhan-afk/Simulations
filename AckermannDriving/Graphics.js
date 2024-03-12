@@ -27,6 +27,7 @@ class Graphics{
 		// 	line(x1, y1, x2, y2);
 		// }
 
+		
 		// Drawing wheel trails
 		strokeWeight(2);
 		stroke(100);
@@ -39,14 +40,8 @@ class Graphics{
 			}
 			endShape();
 		}
-		
-		push();
-		translate(car.position.x, car.position.y);
-		rotate(car.heading);
-		imageMode(CENTER);
-		image(car.carSprite, 0, 0);
-		pop();
 
+		// Drawing the car wheels
 		stroke(0);
 		fill(0);
 		rectMode(CENTER);
@@ -66,6 +61,15 @@ class Graphics{
 			rect(0, 0, 20, 6);
 			pop();
 		}
+		
+		// Drawing the main car body sprite
+		car.carSprite.resize(100, 50);
+		push();
+		translate(car.position.x, car.position.y);
+		rotate(car.heading + PI);
+		imageMode(CENTER);
+		image(car.carSprite, 0, 0);
+		pop();
 		
 	}
 

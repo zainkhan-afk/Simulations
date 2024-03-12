@@ -7,7 +7,7 @@ class Car{
 		this.angularVelocity = 0;
 
 
-		this.carWidth = 35;
+		this.carWidth = 40;
 		this.carLength = 60;
 		this.wheelRadius = 6;
 
@@ -15,7 +15,8 @@ class Car{
 
 		this.carKinematics = new Kinematics(this.carWidth, this.carLength);
 
-		this.carSprite = loadImage('https://raw.githubusercontent.com/zainkhan-afk/Simulations/main/AckermannDriving/sprites/car_sprite.png');
+		this.carSprite = loadImage('https://raw.githubusercontent.com/zainkhan-afk/Simulations/main/AckermannDriving/sprites/small_car_sprite.png');
+		// this.carSprite.resize(10, 5);
 
 
 		// this.carSprite = new Image();
