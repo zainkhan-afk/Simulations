@@ -15,7 +15,7 @@ class Car{
 
 		this.carKinematics = new Kinematics(this.carWidth, this.carLength);
 
-		this.carSprite = loadImage('sprites/car_sprite.png');
+		// this.carSprite = loadImage('sprites/car_sprite.png');
 
 
 		this.carBaseBodyPts = [[- this.carLength/2, - this.carWidth/2], 

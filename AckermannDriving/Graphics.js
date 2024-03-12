@@ -3,11 +3,11 @@ class Graphics{
 	}
 
 	DrawCar(car){
-		imageMode(CENTER);
-		image(this.carSprite, car.position.x, car.position.y);
+		// imageMode(CENTER);
+		// image(this.carSprite, car.position.x, car.position.y);
 		// Drawing main car body
-		strokeWeight(1);
-		stroke(255, 0, 0);
+		strokeWeight(3);
+		stroke(150);
 		noFill();
 		beginShape();
 		for (let i = 0; i < car.carTranformedBodyPts.length; i++){
@@ -16,8 +16,8 @@ class Graphics{
 		endShape(CLOSE);
 
 		// Drawing Wheels
-		strokeWeight(3);
-		stroke(0, 255, 0);
+		strokeWeight(5);
+		stroke(0);
 		for (let i = 0; i < car.carTranformedWheelLinePts.length; i++){
 			let x1 = car.carTranformedWheelLinePts[i][0];
 			let y1 = car.carTranformedWheelLinePts[i][1];
