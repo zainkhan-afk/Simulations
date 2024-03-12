@@ -5,10 +5,15 @@ class Graphics{
 	DrawCar(car){
 		// imageMode(CENTER);
 		// image(this.carSprite, car.position.x, car.position.y);
+		// drawingContext.drawImage(this.carSprit,mouseX,mouseY);
+
+
+
 		// Drawing main car body
 		strokeWeight(3);
 		stroke(150);
-		noFill();
+		fill(150);
+		// noFill();
 		beginShape();
 		for (let i = 0; i < car.carTranformedBodyPts.length; i++){
 			vertex(car.carTranformedBodyPts[i][0], car.carTranformedBodyPts[i][1]);
@@ -28,8 +33,8 @@ class Graphics{
 		}
 
 		// Drawing wheel trails
-		strokeWeight(1);
-		stroke(0);
+		strokeWeight(2);
+		stroke(100);
 		noFill();
 		for (let i = 0; i < car.wheelTrail.length; i++){
 			beginShape();
