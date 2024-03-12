@@ -3,6 +3,8 @@ class Graphics{
 	}
 
 	DrawCar(car){
+		imageMode(CENTER);
+		image(this.carSprite, car.position.x, car.position.y);
 		// Drawing main car body
 		strokeWeight(1);
 		stroke(255, 0, 0);
