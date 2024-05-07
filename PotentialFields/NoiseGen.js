@@ -1,7 +1,7 @@
 class NoiseGen{
 	constructor(div){
 		this.div = div;		
-		this.noiseScale = 0.025;
+		this.noiseScale = 0.1;
 		this.noiseMaxVal = 255;
 
 		this.Reset();
@@ -13,9 +13,10 @@ class NoiseGen{
 		this.image = createImage(windowWidth, windowHeight);
 	}
 
-	PopulateImage(){
-		let numRows = int(windowHeight / this.div) + 1;
-		let numCols = int(windowWidth / this.div) + 1;
+	GenerateNoise()
+	{
+		let numRows = ceil(windowHeight / this.div);
+		let numCols = ceil(windowWidth / this.div);
 		
 		for (let r = 0; r < numRows; r++){
 			this.noiseGrid[r] = []
@@ -23,7 +24,14 @@ class NoiseGen{
 				this.noiseGrid[r][c] = map(noise(r*this.noiseScale, c*this.noiseScale), 0, 1, 0, 255);
 			}
 		}
+	}
 
+	UpdateNoise(newNoise)
+	{
+		this.noiseGrid = newNoise;
+	}
+
+	PopulateImage(){
 		for(let x = 0; x < windowWidth; x++){
 			let c = floor(x / this.div);
 			for(let y = 0; y < windowHeight; y++){
