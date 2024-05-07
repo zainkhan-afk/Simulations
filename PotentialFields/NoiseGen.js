@@ -3,7 +3,7 @@ class NoiseGen{
 		this.div = div;		
 		this.noiseScale = 0.1;
 		this.noiseMaxVal = 255;
-
+		
 		this.Reset();
 
 	}
