@@ -24,7 +24,7 @@ function setup() {
   frameSum = 0;
   angle = 0;
   rectMode(CENTER);
-  frameRate(60);
+  frameRate(120);
 
 }
 

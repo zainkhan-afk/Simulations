@@ -7,8 +7,8 @@ uniform float u_time;      // Time for animation
 uniform vec3 u_sphere_pos;
 // Camera and ray marching settings
 const int MAX_STEPS = 100;         // Maximum steps for ray marching
-const float MAX_DIST = 1000.0;      // Maximum distance to march
-const float MIN_DIST = 0.001;      // Minimum distance to consider a hit
+const float MAX_DIST = 100.0;      // Maximum distance to march
+const float MIN_DIST = 0.1;      // Minimum distance to consider a hit
 
 // Sphere properties
 const vec3 SPHERE_POS = vec3(0.0, -100.0, 0.0); // Sphere position
@@ -119,7 +119,7 @@ float FBM(vec2 p)
     for (int i = 0; i < numOctaves; i++)
     {
         pos *= frequency;
-        val += amplitude*noise(pos) + pos.y / 50.0 + pos.x / 100.0;
+        val += amplitude*noise(pos);
 
         frequency += freq_inc;
         amplitude *= amplitude_mult;
@@ -194,6 +194,7 @@ void main() {
     vec3 ro = vec3(0.0, 0.0, 1.0); // Ray origin (camera position)
     // vec3 rd = normalize(vec3(uv.x, -1, uv.y)); // Ray direction
     vec3 rd = normalize(vec3(uv.x, 1.0, uv.y)); // Ray direction
+    // vec3 rd = normalize(vec3(uv.x, uv.y, -1.0)); // Ray direction
 
     // // Ray marching
     // float hitDist = rayMarch(ro, rd, MAX_DIST, MIN_DIST);
