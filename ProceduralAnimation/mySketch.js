@@ -6,7 +6,7 @@ function setup()
 {
 	createCanvas(windowWidth, windowHeight);
 
-    pos = createVector(windowWidth/2, windowHeight/2);
+    pos = createVector(windowWidth / 4 , random(0, windowHeight));
 	append(fishes, new Fish(pos));
     graphics = new Graphics();
 
@@ -20,5 +20,5 @@ function draw()
     {
         fishes[i].Step(deltaT);
     }
-    graphics.draw(fishes);
+    graphics.DrawFish(fishes);
 }
