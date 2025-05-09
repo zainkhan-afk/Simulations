@@ -3,9 +3,9 @@ class Fish{
         this.boundary_limit_percent = 0.05;
         
 		this.position = position;
-        this.num_circles = 9;
+        this.num_circles = 8;
         this.circles = [];
-        this.radii = [16, 20, 20, 16, 12, 10, 8, 6, 40];
+        this.radii = [16, 20, 20, 16, 12, 10, 8, 6];
 
         this.velocity = createVector(random(-20, 20), random(-20, 20));
         this.velocity = createVector(15, 15);
