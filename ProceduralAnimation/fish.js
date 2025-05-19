@@ -47,8 +47,8 @@ class Fish{
         //     this.acceleration.y = (windowHeight / 2 - this.position.y) / (windowHeight/4);
         // }
 
-        this.acceleration.x = (mouseX - this.position.x) / (windowWidth / 10);
-        this.acceleration.y = (mouseY - this.position.y) / (windowHeight / 10);
+        this.acceleration.x = (windowWidth / 2 - this.position.x) / (windowWidth / 10);
+        this.acceleration.y = (windowHeight / 2 - this.position.y) / (windowHeight / 10);
         // if (this.acceleration.mag() > 5){
         //     this.acceleration.setMag(5);
         // }

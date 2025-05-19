@@ -3,7 +3,7 @@ let fishes = [];
 let fishRadii = [];
 let graphics;
 let theShader;
-let deltaT = 0.1;
+let deltaT = 0.2;
 
 
 
@@ -42,7 +42,7 @@ function draw()
     {
         fishes[i].Step(deltaT);
         for (let j = 0; j < fishes[i].num_circles; j++){
-            fishPositions.push(fishes[i].circles[j].x / windowWidth, fishes[i].circles[j].y / windowWidth)
+            fishPositions.push(fishes[i].circles[j].x / windowWidth, (windowHeight - fishes[i].circles[j].y) / windowWidth)
         }
     }
 
