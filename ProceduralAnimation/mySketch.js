@@ -3,7 +3,7 @@ let fishes = [];
 let fishRadii = [];
 let graphics;
 let theShader;
-let deltaT = 0.2;
+let deltaT = 0.1;
 
 
 
@@ -17,7 +17,7 @@ function setup()
 	createCanvas(windowWidth, windowHeight, WEBGL);
     textFont(font);
 
-    pos = createVector(windowWidth / 4 , random(0, windowHeight));
+    pos = createVector(windowWidth / 4 , random(0, windowHeight) * 0);
 	append(fishes, new Fish(pos));
 
     
@@ -30,6 +30,7 @@ function setup()
 
     for (let i = 0; i < fishRadii.length; i++)
     {
+        fishRadii[i] *= 5;
         fishRadii[i] /= windowWidth;
     }
 }
@@ -37,22 +38,28 @@ function setup()
 function draw()
 {
     let fishPositions = [];
+    let fishHeadings = [];
+    let headAngles = [- PI / 2, - PI / 3, - PI / 6, 0, PI / 6, PI / 3, PI / 2];
 
     for (let i = 0; i < fishes.length; i++)
     {
         fishes[i].Step(deltaT);
         for (let j = 0; j < fishes[i].num_circles; j++){
-            fishPositions.push(fishes[i].circles[j].x / windowWidth, (windowHeight - fishes[i].circles[j].y) / windowWidth)
+            fishPositions.push(fishes[i].circles[j].x / windowWidth, (fishes[i].circles[j].y) / windowWidth);
         }
+        fishHeadings.push(fishes[i].velocity.heading());
+        // console.log(fishes[i].velocity.heading() * 180 / PI);
     }
 
-    // let vectorData = new Float32Array(fishPositions);
+    // let vectorData = new Float32Array(fishHeadings);
 
     shaderTex.shader(theShader);
     theShader.setUniform("u_resolution", [windowWidth,windowHeight]);
     theShader.setUniform("u_time", millis() / 1000.0);
 
     theShader.setUniform("fishSegmentsPositions", fishPositions);
+    theShader.setUniform("fishHeadings", fishHeadings);
+    theShader.setUniform("headPointAngles", headAngles);
     theShader.setUniform("segmentRadii", fishRadii);
     theShader.setUniform("numFishes", fishes.length);
     
