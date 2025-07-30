@@ -4,7 +4,8 @@ let fishRadii = [];
 let graphics;
 let theShader;
 let deltaT = 0.3;
-
+let screenW = windowWidth;
+let screenH = windowHeight;
 
 
 function preload(){
@@ -14,10 +15,13 @@ function preload(){
 
 function setup() 
 {
-	createCanvas(windowWidth, windowHeight, WEBGL);
+    screenW = windowWidth;
+    screenH = windowHeight;
+	
+    createCanvas(screenW, screenH, WEBGL);
     textFont(font);
 
-    pos = createVector(windowWidth / 4 , windowHeight / 4);
+    pos = createVector(screenW / 4 , screenH / 4);
 	append(fishes, new Fish(pos));
 
     
@@ -31,12 +35,14 @@ function setup()
     for (let i = 0; i < fishRadii.length; i++)
     {
         fishRadii[i] *= 2;
-        fishRadii[i] /= windowWidth;
+        fishRadii[i] /= screenW;
     }
+
 }
 
 function draw()
 {
+    clear();
     let fishPositions = [];
     let fishHeadings = [];
     let headAngles = [- PI / 2, - PI / 3, - PI / 6, 0, PI / 6, PI / 3, PI / 2];
@@ -45,7 +51,7 @@ function draw()
     {
         fishes[i].Step(deltaT);
         for (let j = 0; j < fishes[i].num_circles; j++){
-            fishPositions.push(fishes[i].circles[j].x / windowWidth, (fishes[i].circles[j].y) / windowWidth);
+            fishPositions.push(fishes[i].circles[j].x / screenW, (fishes[i].circles[j].y) / screenH);
         }
         fishHeadings.push(fishes[i].velocity.heading());
         // console.log(fishes[i].velocity.heading() * 180 / PI);
@@ -54,7 +60,7 @@ function draw()
     // let vectorData = new Float32Array(fishHeadings);
 
     shaderTex.shader(theShader);
-    theShader.setUniform("u_resolution", [windowWidth,windowHeight]);
+    theShader.setUniform("u_resolution", [screenW,screenH]);
     theShader.setUniform("u_time", millis() / 1000.0);
 
     theShader.setUniform("fishSegmentsPositions", fishPositions);
@@ -64,18 +70,18 @@ function draw()
     theShader.setUniform("numFishes", fishes.length);
     
     
-    shaderTex.rect(0,0,windowWidth,windowHeight);
+    shaderTex.rect(0,0,screenW,screenH);
 
     fill(0);
     textSize(10);
     
     texture(shaderTex);
-    rect(0, 0, windowWidth,windowHeight);
+    rect(0, 0, screenW/2,screenH/2);
 
-    text("FrameRate: " + int(frameRate()),  -windowWidth/2 + 10, -windowHeight/2 + 15);
+    text("FrameRate: " + int(frameRate()),  -screenW/2 + 10, -screenH/2 + 15);
 }
 
 
 function windowResized(){
-    resizeCanvas(windowWidth, windowHeight);
+    resizeCanvas(screenW, screenH);
 }
