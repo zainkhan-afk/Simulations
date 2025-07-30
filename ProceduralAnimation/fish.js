@@ -9,7 +9,7 @@ class Fish{
 
         for (let i = 0; i < this.radii.length; i++)
         {
-            this.radii[i] *= 5;
+            this.radii[i] *= 2;
         }
 
         this.velocity = createVector(random(-20, 20), random(-20, 20));
@@ -52,8 +52,8 @@ class Fish{
         //     this.acceleration.y = (windowHeight / 2 - this.position.y) / (windowHeight/4);
         // }
 
-        // this.acceleration.x = (windowWidth / 2 - this.position.x) / (windowWidth / 10);
-        // this.acceleration.y = (windowHeight / 2 - this.position.y) / (windowHeight / 10);
+        this.acceleration.x = (windowWidth / 2 - this.position.x) / (windowWidth / 10);
+        this.acceleration.y = (windowHeight / 2 - this.position.y) / (windowHeight / 10);
         // if (this.acceleration.mag() > 5){
         //     this.acceleration.setMag(5);
         // }

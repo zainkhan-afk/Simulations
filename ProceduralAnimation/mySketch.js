@@ -3,7 +3,7 @@ let fishes = [];
 let fishRadii = [];
 let graphics;
 let theShader;
-let deltaT = 0.1;
+let deltaT = 0.3;
 
 
 
@@ -17,7 +17,7 @@ function setup()
 	createCanvas(windowWidth, windowHeight, WEBGL);
     textFont(font);
 
-    pos = createVector(windowWidth / 4 , random(0, windowHeight) * 0);
+    pos = createVector(windowWidth / 4 , windowHeight / 4);
 	append(fishes, new Fish(pos));
 
     
@@ -30,7 +30,7 @@ function setup()
 
     for (let i = 0; i < fishRadii.length; i++)
     {
-        fishRadii[i] *= 5;
+        fishRadii[i] *= 2;
         fishRadii[i] /= windowWidth;
     }
 }
