@@ -38,3 +38,8 @@ function draw()
 	background(255);
 	graphics.Draw(car);
 }
+
+
+function windowResized(){
+    resizeCanvas(windowWidth, windowHeight);
+}

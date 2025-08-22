@@ -35,3 +35,7 @@ function draw()
 	graphics.Draw(boids);
 	logic.Step(boids, deltaT);
 }
+
+function windowResized(){
+    resizeCanvas(windowWidth, windowHeight);
+}

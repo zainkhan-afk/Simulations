@@ -36,3 +36,8 @@ function draw() {
 	translate(windowWidth/2, windowHeight/2);
 	sim.Step(particles, rows, cols, div, mu, deltaT);
 }
+
+
+function windowResized(){
+    resizeCanvas(windowWidth, windowHeight);
+}
