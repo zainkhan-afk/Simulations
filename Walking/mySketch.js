@@ -21,7 +21,7 @@ function setup()
 function draw()
 {
     clear();
-    background(0);
+    background(255);
     renderer.render(people);
 
     for (let i = 0; i < people.length; i++) {
