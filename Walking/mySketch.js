@@ -3,6 +3,7 @@ let exampleClass;
 let people = [];
 let numPeople = 5;
 let renderer;
+let dt = 0.1;
 
 function setup() 
 {
@@ -26,7 +27,7 @@ function draw()
 
     for (let i = 0; i < people.length; i++) {
         let person = people[i];
-        person.Update();
+        person.Update(dt);
     }
 }
 
