@@ -32,10 +32,23 @@ class Renderer {
             rotate(person.vel.heading());
             
             fill(0, 0, 0);
+            let leftFoot = person.GetLocalFootPos(0);
+            let rightFoot = person.GetLocalFootPos(1);
+
+            ellipse(leftFoot.x, leftFoot.y, 10, 5);
+            ellipse(rightFoot.x, rightFoot.y, 10, 5);
+
+            fill(255, 0, 0);
+            ellipse(0, 0, 10, person.bodyHeight);
+            circle(5, 0, 6);
+            
+
+            
+            // fill(0, 0, 0);
             // fill(person.foot1Color);
-            ellipse(person.foot1 + 3, 5.5, 10, 5);
+            // ellipse(person.foot1 + 3, 5.5, 10, 5);
             // fill(person.foot2Color);
-            ellipse(person.foot2 + 3, -5.5, 10, 5);
+            // ellipse(person.foot2 + 3, -5.5, 10, 5);
             
             // fill(0, 50, 200);
             // rect(0, 3, person.foot1, 5);
