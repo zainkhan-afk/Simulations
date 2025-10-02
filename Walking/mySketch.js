@@ -1,9 +1,9 @@
 let pos;
 let exampleClass;
 let people = [];
-let numPeople = 5;
+let numPeople = 1;
 let renderer;
-let dt = 0.1;
+let dt = 0.05;
 
 function setup() 
 {
@@ -13,7 +13,8 @@ function setup()
 	
     for (let i = 0; i < numPeople; i++)
     {
-        append(people, new Person(createVector(random(100, windowWidth - 100), random(100, windowHeight - 100))));
+        // append(people, new Person(createVector(random(100, windowWidth - 100), random(100, windowHeight - 100))));
+        append(people, new Person(createVector(windowWidth / 2, windowHeight / 2)));
     }
     
     noStroke();
