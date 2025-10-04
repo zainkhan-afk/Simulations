@@ -24,23 +24,36 @@ class Renderer {
     render(people) {
         this.DebugGrid();
         for (let i = 0; i < people.length; i++) {
-            push();
             let person = people[i];
             stroke(0);
+            fill(0, 0, 0);
+            push();
+            translate(person.leftFootPos.x, person.leftFootPos.y);
+            rotate(person.vel.heading());
+            ellipse(0, 0, 10, 5);
+            pop();
+
+            push();
+            translate(person.rightFootPos.x, person.rightFootPos.y);
+            rotate(person.vel.heading());
+            ellipse(0, 0, 10, 5);
+            pop();
+
             
+            // fill(0, 0, 0);
+            // let leftFoot = person.GetLocalFootPos(0);
+            // let rightFoot = person.GetLocalFootPos(1);
+
+            // ellipse(leftFoot.x, leftFoot.y, 10, 5);
+            // ellipse(rightFoot.x, rightFoot.y, 10, 5);
+
+            push();
             translate(person.pos.x, person.pos.y);
             rotate(person.vel.heading());
-            
-            fill(0, 0, 0);
-            let leftFoot = person.GetLocalFootPos(0);
-            let rightFoot = person.GetLocalFootPos(1);
-
-            ellipse(leftFoot.x, leftFoot.y, 10, 5);
-            ellipse(rightFoot.x, rightFoot.y, 10, 5);
-
             fill(255, 0, 0);
             ellipse(0, 0, 10, person.bodyHeight);
             circle(5, 0, 6);
+            pop();
             
 
             
