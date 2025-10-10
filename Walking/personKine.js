@@ -1,13 +1,20 @@
 class Person{
 	constructor(pos){
                 this.pos = pos;
-                this.vel = p5.Vector.fromAngle(PI);
+                this.vel = p5.Vector.fromAngle(PI/2);
                 this.color = color(200, 200, 0);
 
                 this.bodyHeight = 20;
+                
+                this.leftFootLocal = createVector(0, - this.bodyHeight / 2);
+                this.rightFootLocal = createVector(0, this.bodyHeight / 2);
 
-                this.leftFootPos = createVector(this.pos.x + 10, this.pos.y - this.bodyHeight / 2);
-                this.rightFootPos = createVector(this.pos.x, this.pos.y + this.bodyHeight / 2);
+
+                // this.leftFootPos = createVector(this.pos.x, this.pos.y - this.bodyHeight / 2);
+                // this.rightFootPos = createVector(this.pos.x, this.pos.y + this.bodyHeight / 2);
+
+                this.leftFootPos = createVector(this.pos.x + sin(this.vel.heading())*this.leftFootLocal.x, this.pos.y + cos(this.vel.heading())*this.leftFootLocal.y);
+                this.rightFootPos = createVector(this.pos.x + sin(this.vel.heading())*this.rightFootLocal.x, this.pos.y + cos(this.vel.heading())*this.rightFootLocal.y);
 
                 this.leftFootDesiredPos = this.leftFootPos.copy();
                 this.rightFootDesiredPos = this.rightFootPos.copy();
@@ -103,11 +110,10 @@ class Person{
         {
 
                 this.pos.add(p5.Vector.mult(this.vel, dt));
+                // this.leftFootPos = createVector(this.pos.x - cos(this.vel.heading())*this.leftFootLocal.y, this.pos.y + sin(this.vel.heading())*this.leftFootLocal.y);
+                // this.rightFootPos = createVector(this.pos.x - cos(this.vel.heading())*this.rightFootLocal.y, this.pos.y + sin(this.vel.heading())*this.rightFootLocal.y);
                 // this.leftFootPos.add(p5.Vector.mult(this.vel, dt));
                 // this.rightFootPos.add(p5.Vector.mult(this.vel, dt));
-                let leftFootHeading = p5.Vector.sub(this.pos, this.leftFootPos).heading();
-                let rightFootHeading = p5.Vector.sub(this.pos, this.rightFootPos).heading();
-                console.log(leftFootHeading*180/PI, rightFootHeading*180/PI);
 
                 // this.CalculateDesiredFootPos(dt);
                 // this.UpdateFootPos(dt);

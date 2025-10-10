@@ -26,16 +26,25 @@ class Renderer {
         for (let i = 0; i < people.length; i++) {
             let person = people[i];
             stroke(0);
+
+            push();
+            translate(person.pos.x, person.pos.y);
+            rotate(person.vel.heading());
+            fill(255, 0, 0);
+            ellipse(0, 0, 10, person.bodyHeight);
+            circle(5, 0, 6);
+            pop();
+
             fill(0, 0, 0);
             push();
             translate(person.leftFootPos.x, person.leftFootPos.y);
-            rotate(person.vel.heading());
+            // rotate(person.vel.heading());
             ellipse(0, 0, 10, 5);
             pop();
 
             push();
             translate(person.rightFootPos.x, person.rightFootPos.y);
-            rotate(person.vel.heading());
+            // rotate(person.vel.heading());
             ellipse(0, 0, 10, 5);
             pop();
 
@@ -46,14 +55,6 @@ class Renderer {
 
             // ellipse(leftFoot.x, leftFoot.y, 10, 5);
             // ellipse(rightFoot.x, rightFoot.y, 10, 5);
-
-            push();
-            translate(person.pos.x, person.pos.y);
-            rotate(person.vel.heading());
-            fill(255, 0, 0);
-            ellipse(0, 0, 10, person.bodyHeight);
-            circle(5, 0, 6);
-            pop();
             
 
             
