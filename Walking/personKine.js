@@ -16,7 +16,7 @@ class Person{
                 this.leftFootDesiredPos = this.leftFootPos.copy();
                 this.rightFootDesiredPos = this.rightFootPos.copy();
 
-                this.stepSize = 10;
+                this.stepSize = random(8, 10);
                 this.halfStepSize = this.stepSize / 2;
 
                 this.movingFoot = 0;
@@ -24,28 +24,19 @@ class Person{
                 this.halt = false;
 	}
 
-        GetLocalFootPos(foot)
-        {
-                if (foot == 0)
-                {
-                        return p5.Vector.sub(this.pos, this.leftFootPos);
-                }
-                else
-                {
-                        return p5.Vector.sub(this.pos, this.rightFootPos);
-                }
-        }
-
         UpdateFootPos(dt)
         {
                 if (this.movingFoot == 0)
                 {
                         let footDelta = p5.Vector.sub(this.leftFootDesiredPos, this.leftFootPos);
-                        if (footDelta.mag() < 0.01) {
+                        // console.log("Left: ", footDelta.mag());
+                        if (footDelta.mag() < 0.1) {
                                 this.footStepPlanned = false;
                                 this.movingFoot = 1;
+                                // console.log("Left Reached, switching to right");
                                 return;
                         }
+                        // footDelta.setMag(this.vel.mag());
                         // console.log("footDelta", footDelta);
                         this.leftFootPos.add(p5.Vector.mult(footDelta, dt));
                         // console.log(this.leftFootPos, this.leftFootDesiredPos);
@@ -54,54 +45,15 @@ class Person{
                 else
                 {
                         let footDelta = p5.Vector.sub(this.rightFootDesiredPos, this.rightFootPos);
-                        if (footDelta.mag() < 0.01) {
+                        // console.log("Right: ", footDelta.mag());
+                        if (footDelta.mag() < 0.1) {
                                 this.footStepPlanned = false;
                                 this.movingFoot = 0;
+                                // console.log("Right Reached, switching to left");
                                 return;
                         }
+                        // footDelta.setMag(this.vel.mag());
                         this.rightFootPos.add(p5.Vector.mult(footDelta, dt));
-                }
-        }
-
-        CalculateDesiredFootPos(dt)
-        {
-                let footDist = max(this.pos.dist(this.leftFootPos), this.pos.dist(this.rightFootPos));
-                
-                if (footDist <= this.stepSize / 2) { return; }
-                this.footStepPlanned = false;
-
-                let leftFootHeading = p5.Vector.sub(this.pos, this.leftFootPos).heading();
-                let rightFootHeading = p5.Vector.sub(this.pos, this.rightFootPos).heading();
-                
-                if (leftFootHeading < 0 || rightFootHeading < 0){
-                        console.log(leftFootHeading*180/PI, rightFootHeading*180/PI);
-                        this.footStepPlanned = true;
-                }
-                
-                if (this.footStepPlanned) { return; }
-                
-                if (this.pos.dist(this.leftFootPos) > this.pos.dist(this.rightFootPos)) {
-                        this.movingFoot = 0;
-                }
-                else{
-                        this.movingFoot = 1;
-                }
-
-                let stepSizeVector = p5.Vector.fromAngle(this.vel.heading(), this.stepSize);
-
-                if (this.movingFoot == 0)
-                {
-                        this.leftFootDesiredPos.add(stepSizeVector);
-                        this.footStepPlanned = true;
-                        // console.log(stepSizeVector);
-                        // console.log(this.leftFootPos, this.leftFootDesiredPos);
-                }
-                else if (this.movingFoot == 1)
-                {
-                        this.rightFootDesiredPos.add(stepSizeVector);
-                        this.footStepPlanned = true;
-                        // console.log(stepSizeVector);
-                        // console.log(this.leftFootPos, this.leftFootDesiredPos);
                 }
         }
 
@@ -114,7 +66,7 @@ class Person{
 
                 if (rightFootAnchorDiff.mag() > this.stepSize || leftFootAnchorDiff.mag() > this.stepSize)
                 {
-                        // this.halt = true;
+                        this.halt = true;
                 }
                 else{
                         this.halt = false;
@@ -151,14 +103,8 @@ class Person{
                 }
                 this.UpdateAnchorAndDesiredFootPos();
                 this.UpdateFootPos(dt);
-                // this.leftFootPos = createVector(this.pos.x - cos(this.vel.heading())*this.leftFootAnchor.y, this.pos.y + sin(this.vel.heading())*this.leftFootAnchor.y);
-                // this.rightFootPos = createVector(this.pos.x - cos(this.vel.heading())*this.rightFootAnchor.y, this.pos.y + sin(this.vel.heading())*this.rightFootAnchor.y);
-                // this.leftFootPos.add(p5.Vector.mult(this.vel, dt));
-                // this.rightFootPos.add(p5.Vector.mult(this.vel, dt));
 
-                // this.CalculateDesiredFootPos(dt);
-                // this.UpdateFootPos(dt);
-                // this.leftFootPos = createVector(this.pos.x, this.pos.y - this.bodyHeight / 2);
-                // this.rightFootPos = createVector(this.pos.x, this.pos.y + this.bodyHeight / 2);
+                // if (this.pos.x < 0 || this.pos.x > windowWidth) {this.vel.x *= -1;}
+                // if (this.pos.y < 0 || this.pos.y > windowHeight) {this.vel.y *= -1;}
         }
 }

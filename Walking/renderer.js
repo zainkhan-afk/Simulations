@@ -4,6 +4,10 @@ class Renderer {
     }
 
     DebugGrid() {
+        strokeWeight(1);
+        stroke(0);
+        text(round(frameRate()), 0, 10);
+
         let squareW = 10;
         let squareH = 10;
         
@@ -26,6 +30,7 @@ class Renderer {
         for (let i = 0; i < people.length; i++) {
             let person = people[i];
             stroke(0);
+            strokeWeight(1);
 
             fill(0, 0, 0);
             push();
@@ -40,6 +45,17 @@ class Renderer {
             ellipse(0, 0, 10, 5);
             pop();
 
+            
+            strokeWeight(5);
+            stroke(0, 100, 200);
+            line(person.leftFootPos.x, person.leftFootPos.y, person.leftFootAnchor.x, person.leftFootAnchor.y);
+
+
+            stroke(0, 100, 200);
+            line(person.rightFootPos.x, person.rightFootPos.y, person.rightFootAnchor.x, person.rightFootAnchor.y);
+
+            stroke(0);
+            strokeWeight(1);
             push();
             translate(person.pos.x, person.pos.y);
             rotate(person.vel.heading());
@@ -47,6 +63,7 @@ class Renderer {
             ellipse(0, 0, 10, person.bodyHeight);
             circle(5, 0, 6);
             pop();
+            
 
             
             // fill(0, 0, 0);
