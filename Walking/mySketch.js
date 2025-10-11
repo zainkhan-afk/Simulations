@@ -3,7 +3,7 @@ let exampleClass;
 let people = [];
 let numPeople = 1;
 let renderer;
-let dt = 0.05;
+let dt = 0.1;
 
 function setup() 
 {

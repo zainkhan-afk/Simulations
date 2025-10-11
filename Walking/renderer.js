@@ -38,13 +38,13 @@ class Renderer {
             fill(0, 0, 0);
             push();
             translate(person.leftFootPos.x, person.leftFootPos.y);
-            // rotate(person.vel.heading());
+            rotate(person.vel.heading());
             ellipse(0, 0, 10, 5);
             pop();
 
             push();
             translate(person.rightFootPos.x, person.rightFootPos.y);
-            // rotate(person.vel.heading());
+            rotate(person.vel.heading());
             ellipse(0, 0, 10, 5);
             pop();
 

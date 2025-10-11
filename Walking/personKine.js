@@ -1,20 +1,20 @@
 class Person{
 	constructor(pos){
                 this.pos = pos;
-                this.vel = p5.Vector.fromAngle(PI/2);
+                this.vel = p5.Vector.fromAngle(PI / 4);
                 this.color = color(200, 200, 0);
 
                 this.bodyHeight = 20;
                 
-                this.leftFootLocal = createVector(0, - this.bodyHeight / 2);
-                this.rightFootLocal = createVector(0, this.bodyHeight / 2);
+                this.leftFootAnchor = createVector(0, - this.bodyHeight / 2);
+                this.rightFootAnchor = createVector(0, this.bodyHeight / 2);
 
 
-                // this.leftFootPos = createVector(this.pos.x, this.pos.y - this.bodyHeight / 2);
-                // this.rightFootPos = createVector(this.pos.x, this.pos.y + this.bodyHeight / 2);
+                this.leftFootAnchor = createVector(this.pos.x  + sin(this.vel.heading())*this.bodyHeight / 2, this.pos.y - cos(this.vel.heading())*this.bodyHeight / 2);
+                this.rightFootAnchor = createVector(this.pos.x - sin(this.vel.heading())*this.bodyHeight / 2, this.pos.y + cos(this.vel.heading())*this.bodyHeight / 2);
 
-                this.leftFootPos = createVector(this.pos.x + sin(this.vel.heading())*this.leftFootLocal.x, this.pos.y + cos(this.vel.heading())*this.leftFootLocal.y);
-                this.rightFootPos = createVector(this.pos.x + sin(this.vel.heading())*this.rightFootLocal.x, this.pos.y + cos(this.vel.heading())*this.rightFootLocal.y);
+                this.leftFootPos = this.leftFootAnchor.copy();
+                this.rightFootPos = this.rightFootAnchor.copy();
 
                 this.leftFootDesiredPos = this.leftFootPos.copy();
                 this.rightFootDesiredPos = this.rightFootPos.copy();
@@ -105,13 +105,34 @@ class Person{
                         // console.log(this.leftFootPos, this.leftFootDesiredPos);
                 }
         }
+
+        UpdateAnchorAndFoot(){
+                this.leftFootAnchor = createVector(this.pos.x  + sin(this.vel.heading())*this.bodyHeight / 2, this.pos.y - cos(this.vel.heading())*this.bodyHeight / 2);
+                this.rightFootAnchor = createVector(this.pos.x - sin(this.vel.heading())*this.bodyHeight / 2, this.pos.y + cos(this.vel.heading())*this.bodyHeight / 2);
+
+                let leftFootAnchorDiff = p5.Vector.sub(this.leftFootAnchor, this.leftFootPos);
+                let rightFootAnchorDiff = p5.Vector.sub(this.rightFootAnchor, this.rightFootPos);
+
+                if (leftFootAnchorDiff.mag() > this.stepSize)
+                {
+                        leftFootAnchorDiff.setMag(this.stepSize);
+                        this.leftFootPos = p5.Vector.sub(this.leftFootAnchor, leftFootAnchorDiff);
+                }
+
+                if (rightFootAnchorDiff.mag() > this.stepSize)
+                {
+                        rightFootAnchorDiff.setMag(this.stepSize);
+                        this.rightFootPos = p5.Vector.sub(this.rightFootAnchor, rightFootAnchorDiff);
+                }
+        }
         
         Update(dt)
         {
 
                 this.pos.add(p5.Vector.mult(this.vel, dt));
-                // this.leftFootPos = createVector(this.pos.x - cos(this.vel.heading())*this.leftFootLocal.y, this.pos.y + sin(this.vel.heading())*this.leftFootLocal.y);
-                // this.rightFootPos = createVector(this.pos.x - cos(this.vel.heading())*this.rightFootLocal.y, this.pos.y + sin(this.vel.heading())*this.rightFootLocal.y);
+                this.UpdateAnchorAndFoot();
+                // this.leftFootPos = createVector(this.pos.x - cos(this.vel.heading())*this.leftFootAnchor.y, this.pos.y + sin(this.vel.heading())*this.leftFootAnchor.y);
+                // this.rightFootPos = createVector(this.pos.x - cos(this.vel.heading())*this.rightFootAnchor.y, this.pos.y + sin(this.vel.heading())*this.rightFootAnchor.y);
                 // this.leftFootPos.add(p5.Vector.mult(this.vel, dt));
                 // this.rightFootPos.add(p5.Vector.mult(this.vel, dt));
 
