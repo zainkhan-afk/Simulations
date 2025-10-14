@@ -33,6 +33,7 @@ class Person{
                         if (footDelta.mag() < 0.1) {
                                 this.footStepPlanned = false;
                                 this.movingFoot = 1;
+                                this.leftFootPos = this.leftFootDesiredPos.copy();
                                 // console.log("Left Reached, switching to right");
                                 return;
                         }
@@ -49,6 +50,7 @@ class Person{
                         if (footDelta.mag() < 0.1) {
                                 this.footStepPlanned = false;
                                 this.movingFoot = 0;
+                                this.rightFootPos = this.rightFootDesiredPos.copy();
                                 // console.log("Right Reached, switching to left");
                                 return;
                         }
@@ -98,13 +100,20 @@ class Person{
         Update(dt)
         {
 
+                if (this.pos.x < 0 || this.pos.x > windowWidth) {return;}
+                if (this.pos.y < 0 || this.pos.y > windowHeight) {return;}
                 if (!this.halt){
                         this.pos.add(p5.Vector.mult(this.vel, dt));
+                }
+                else {
+                        console.log("\nHalted")
+                        console.log("FS Planned: ", this.footStepPlanned);
+                        console.log("Moving Foot: ", this.movingFoot)
+                        console.log("Left: ", this.leftFootPos, this.leftFootDesiredPos);
+                        console.log("Right: ", this.rightFootPos, this.rightFootDesiredPos);
                 }
                 this.UpdateAnchorAndDesiredFootPos();
                 this.UpdateFootPos(dt);
 
-                // if (this.pos.x < 0 || this.pos.x > windowWidth) {this.vel.x *= -1;}
-                // if (this.pos.y < 0 || this.pos.y > windowHeight) {this.vel.y *= -1;}
         }
 }
