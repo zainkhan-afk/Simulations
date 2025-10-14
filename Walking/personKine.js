@@ -16,7 +16,7 @@ class Person{
                 this.leftFootDesiredPos = this.leftFootPos.copy();
                 this.rightFootDesiredPos = this.rightFootPos.copy();
 
-                this.stepSize = random(8, 10);
+                this.stepSize = 8 + this.vel.mag();
                 this.halfStepSize = this.stepSize / 2;
 
                 this.movingFoot = 0;
@@ -32,7 +32,7 @@ class Person{
                         // console.log("Left: ", footDelta.mag());
                         if (footDelta.mag() < 0.1) {
                                 this.footStepPlanned = false;
-                                this.movingFoot = 1;
+                                // this.movingFoot = 1;
                                 this.leftFootPos = this.leftFootDesiredPos.copy();
                                 // console.log("Left Reached, switching to right");
                                 return;
@@ -49,7 +49,7 @@ class Person{
                         // console.log("Right: ", footDelta.mag());
                         if (footDelta.mag() < 0.1) {
                                 this.footStepPlanned = false;
-                                this.movingFoot = 0;
+                                // this.movingFoot = 0;
                                 this.rightFootPos = this.rightFootDesiredPos.copy();
                                 // console.log("Right Reached, switching to left");
                                 return;
@@ -66,52 +66,80 @@ class Person{
                 let leftFootAnchorDiff = p5.Vector.sub(this.leftFootAnchor, this.leftFootPos);
                 let rightFootAnchorDiff = p5.Vector.sub(this.rightFootAnchor, this.rightFootPos);
 
-                if (rightFootAnchorDiff.mag() > this.stepSize || leftFootAnchorDiff.mag() > this.stepSize)
-                {
-                        this.halt = true;
-                }
-                else{
-                        this.halt = false;
-                }
+                // if (rightFootAnchorDiff.mag() > this.stepSize || leftFootAnchorDiff.mag() > this.stepSize)
+                // {
+                //         this.halt = true;
+                // }
+                // else{
+                //         this.halt = false;
+                // }
 
                 if (this.footStepPlanned)
                 {
                         return;
                 }
 
-                
-                if (leftFootAnchorDiff.mag() > this.halfStepSize && leftFootAnchorDiff.angleBetween(this.vel) < 0.001)
+                let leftFootMoving = leftFootAnchorDiff.mag() > this.halfStepSize && leftFootAnchorDiff.angleBetween(this.vel) < 0.001;
+                let rightFootMoving = rightFootAnchorDiff.mag() > this.halfStepSize && rightFootAnchorDiff.angleBetween(this.vel) < 0.001;
+
+                if (leftFootMoving && rightFootMoving)
                 {
+                        if (leftFootAnchorDiff.mag() > rightFootAnchorDiff.mag()){
+                                rightFootMoving = false;    
+                        }
+                        else{
+                                leftFootMoving = false;
+                        }
+                }
+                if (leftFootMoving)
+                {
+                        this.movingFoot = 0;
                         leftFootAnchorDiff.setMag(this.stepSize);
                         this.leftFootDesiredPos = p5.Vector.add(this.leftFootAnchor, leftFootAnchorDiff);
                         this.footStepPlanned = true;
-                        // this.leftFootPos = p5.Vector.sub(this.leftFootAnchor, leftFootAnchorDiff);
                 }
-
-                if (rightFootAnchorDiff.mag() > this.halfStepSize && rightFootAnchorDiff.angleBetween(this.vel) < 0.001)
+                else if(rightFootMoving)
                 {
+                        this.movingFoot = 1;
                         rightFootAnchorDiff.setMag(this.stepSize);
                         this.rightFootDesiredPos = p5.Vector.add(this.rightFootAnchor, rightFootAnchorDiff);
                         this.footStepPlanned = true;
-                        // this.rightFootPos = p5.Vector.sub(this.rightFootAnchor, rightFootAnchorDiff);
                 }
+
+                // if (leftFootAnchorDiff.mag() > this.halfStepSize && leftFootAnchorDiff.angleBetween(this.vel) < 0.001)
+                // {
+                //         leftFootAnchorDiff.setMag(this.stepSize);
+                //         this.leftFootDesiredPos = p5.Vector.add(this.leftFootAnchor, leftFootAnchorDiff);
+                //         this.footStepPlanned = true;
+                //         // this.leftFootPos = p5.Vector.sub(this.leftFootAnchor, leftFootAnchorDiff);
+                // }
+
+                // if (rightFootAnchorDiff.mag() > this.halfStepSize && rightFootAnchorDiff.angleBetween(this.vel) < 0.001)
+                // {
+                //         rightFootAnchorDiff.setMag(this.stepSize);
+                //         this.rightFootDesiredPos = p5.Vector.add(this.rightFootAnchor, rightFootAnchorDiff);
+                //         this.footStepPlanned = true;
+                //         // this.rightFootPos = p5.Vector.sub(this.rightFootAnchor, rightFootAnchorDiff);
+                // }
         }
         
         Update(dt)
         {
 
-                if (this.pos.x < 0 || this.pos.x > windowWidth) {return;}
-                if (this.pos.y < 0 || this.pos.y > windowHeight) {return;}
+                if (this.pos.x < 0 || this.pos.x > windowWidth) { this.vel.x *= -1;}
+                if (this.pos.y < 0 || this.pos.y > windowHeight) { this.vel.y *= -1;}
                 if (!this.halt){
                         this.pos.add(p5.Vector.mult(this.vel, dt));
                 }
-                else {
-                        console.log("\nHalted")
-                        console.log("FS Planned: ", this.footStepPlanned);
-                        console.log("Moving Foot: ", this.movingFoot)
-                        console.log("Left: ", this.leftFootPos, this.leftFootDesiredPos);
-                        console.log("Right: ", this.rightFootPos, this.rightFootDesiredPos);
-                }
+                // else {
+                //         console.log("\nHalted")
+                //         console.log("FS Planned: ", this.footStepPlanned);
+                //         console.log("Moving Foot: ", this.movingFoot)
+                //         console.log("Left: ", this.leftFootPos, this.leftFootDesiredPos);
+                //         console.log("Right: ", this.rightFootPos, this.rightFootDesiredPos);
+                //         console.log("vel: ", this.vel.mag());
+                //         console.log("step size: ", this.stepSize);
+                // }
                 this.UpdateAnchorAndDesiredFootPos();
                 this.UpdateFootPos(dt);
 
