@@ -1,9 +1,10 @@
 let pos;
 let exampleClass;
 let people = [];
-let numPeople = 100;
+let numPeople = 1;
 let renderer;
-let dt = 0.25;
+let dt = 0.1;
+let frameCtr = 0;
 
 function setup() 
 {
@@ -29,8 +30,10 @@ function draw()
 
     for (let i = 0; i < people.length; i++) {
         let person = people[i];
+        if (frameCtr == 300) {person.vel.setHeading(person.vel.heading() + 1 / 180 * PI); }
         person.Update(dt);
     }
+    frameCtr += 1;
 }
 
 
