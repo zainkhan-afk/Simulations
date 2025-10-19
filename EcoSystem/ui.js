@@ -1,3 +1,5 @@
+const UIState = { selectedAnimal: null, simulationRunning : false}
+
 // --- Toggle active button for animals ---
 document.addEventListener("DOMContentLoaded", () => {
   const animalButtons = document.querySelectorAll(".animal-btn");
@@ -12,15 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Optional: you can now trigger something in your sketch
       // Example: set a global variable for selected animal
-      window.selectedAnimal = btn.id.toLowerCase(); // e.g., "rabbit"
-      console.log("Selected animal:", window.selectedAnimal);
+      UIState.selectedAnimal = btn.id.toLowerCase(); // e.g., "rabbit"
+      console.log("Selected animal:", UIState.selectedAnimal);
     });
   });
 });
 
-
-// ---- Simulation state ----
-let simulationRunning = false;
 
 // ---- DOM references ----
 document.addEventListener("DOMContentLoaded", () => {
@@ -29,9 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Toggle start/pause
   toggleBtn.addEventListener("click", () => {
-    simulationRunning = !simulationRunning;
+    UIState.simulationRunning = !UIState.simulationRunning;
 
-    if (simulationRunning) {
+    if (UIState.simulationRunning) {
       toggleBtn.textContent = "Pause Simulation";
       toggleBtn.classList.add("running");
       console.log("Simulation started");
@@ -44,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Reset
   resetBtn.addEventListener("click", () => {
-    simulationRunning = false;
+    UIState.simulationRunning = false;
     toggleBtn.textContent = "Start Simulation";
     toggleBtn.classList.remove("running");
     console.log("Simulation reset");

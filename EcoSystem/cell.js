@@ -3,7 +3,7 @@ class Cell{
         this.row = row;
         this.col = col;
         this.size = size;
-        this.type = random(0, 255);
+        this.type = 255*noise(row/10, col/10);
     }
 
     GetCellPosition(){
