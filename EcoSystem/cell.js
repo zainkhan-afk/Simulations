@@ -11,13 +11,13 @@ class Cell{
         let thresh = 0.4;
 
         if (n > thresh) {
-            this.foodContent = (n - thresh) / (1 - thresh) * 100;
+            this.foodMatter = (n - thresh) / (1 - thresh) * 100;
             this.water = 0;
             this.type = "grass";
         }
         else{
             this.water = n / thresh * 100;
-            this.foodContent = 0;
+            this.foodMatter = 0;
             this.type = "water";
         }
     }
@@ -27,13 +27,13 @@ class Cell{
     }
 
     Step(){
-        if (this.type == "grass") {
-            if (this.foodContent < this.maxGrowth){
-                this.foodContent += this.growthRate;
-                if (this.foodContent > this.maxGrowth){
-                    this.foodContent = this.maxGrowth;
-                }
-            }
-        }
+        // if (this.type == "grass") {
+        //     if (this.foodMatter < this.maxGrowth){
+        //         this.foodMatter += this.growthRate;
+        //         if (this.foodMatter > this.maxGrowth){
+        //             this.foodMatter = this.maxGrowth;
+        //         }
+        //     }
+        // }
     }
 }

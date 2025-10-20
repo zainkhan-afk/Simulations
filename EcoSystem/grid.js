@@ -18,7 +18,14 @@ class Grid{
         return this.gridCells[row][col];
     }
     
-    PixelCoordinatesToGridCoordinates(pos){
+    PixelCoordinatesToCell(pos){
+        let col = int(pos.x / this.cellSize);
+        let row = int(pos.y / this.cellSize);
+
+        if (col < 0 || col > this.numCols) { return null; }
+        if (row < 0 || row > this.numRows) { return null; }
+
+        return this.GetCellAt(row, col);
     }
 
 }

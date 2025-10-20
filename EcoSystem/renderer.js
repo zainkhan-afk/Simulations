@@ -10,7 +10,7 @@ class Renderer{
             for (let c = 0; c < grid.numCols; c++){
                 let cell = grid.GetCellAt(r, c);
                 let pos = cell.GetCellPosition();
-                fill(10, cell.foodContent, cell.water);
+                fill(10, cell.foodMatter, cell.water);
                 rect(pos.x, pos.y, cell.size, cell.size);
             }
         }

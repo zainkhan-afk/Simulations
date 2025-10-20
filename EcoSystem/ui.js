@@ -1,4 +1,4 @@
-const UIState = { selectedAnimal: null, simulationRunning : false}
+const UIState = { selectedAnimal: null, simulationRunning : true}
 
 // --- Toggle active button for animals ---
 document.addEventListener("DOMContentLoaded", () => {

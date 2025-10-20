@@ -4,5 +4,6 @@ class Rabbit extends Creature {
         this.size = 10;
         this.color = color(100, 100, 200);
         this.name = "rabbit";
+        this.type = "herbivor";
     }
 }

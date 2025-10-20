@@ -23,18 +23,19 @@ function setup()
 
 function draw()
 {
-    clear();
-    background(200);
-    
-    renderer.Render(simulation);
-    if (UIState.simulationRunning) {
-        simulation.step();
-    } else {
-        fill(20);
-        textSize(16);
-        textAlign(CENTER, CENTER);
-        text("Simulation Paused", width / 2, height / 2);
-    }
+  textSize(16);
+  textAlign(CENTER, CENTER);
+  clear();
+  background(200);
+  
+  renderer.Render(simulation);
+  if (UIState.simulationRunning) {
+    simulation.step();
+  } else {
+    stroke(0);
+    fill(255);
+    text("Simulation Paused", width / 2, height / 2);
+  }
     
 }
 
