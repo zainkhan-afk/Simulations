@@ -10,10 +10,25 @@ class Renderer{
             for (let c = 0; c < grid.numCols; c++){
                 let cell = grid.GetCellAt(r, c);
                 let pos = cell.GetCellPosition();
-                fill(100, cell.type, 10);
+                fill(10, cell.foodContent, cell.water);
                 rect(pos.x, pos.y, cell.size, cell.size);
             }
         }
+        stroke(0);
+        fill(255);
+        text(int(frameRate()), 10, 10);
+    }
+
+    RenderHUD(simulation){
+        let i = 20;
+        stroke(0);
+        fill(255);
+        textAlign(LEFT);
+        for (const key in simulation.animalCount) {
+            text(key + ":", windowWidth - 200, i)
+            text(simulation.animalCount[key], windowWidth - 120, i)
+            i += 20;
+        }   
     }
 
     RenderAnimals(animals){
@@ -49,6 +64,7 @@ class Renderer{
 
     Render(simulation){
         this.RenderGrid(simulation.grid);
+        this.RenderHUD(simulation);
         this.RenderAnimals(simulation.animals);
 
         this.RenderToolTip();

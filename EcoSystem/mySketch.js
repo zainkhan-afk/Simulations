@@ -1,6 +1,6 @@
 let renderer;
 let simulation;
-let cellSize = 10;
+let cellSize = 20;
 let numRows = 50;
 let numCols = 200;
 
@@ -8,6 +8,9 @@ function setup()
 {
     let canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent("main");
+
+    numRows = int(windowHeight / cellSize);
+    numCols = int(windowWidth / cellSize);
     
     let grid = new Grid(cellSize, numRows, numCols);
     simulation = new Simulation(grid);
@@ -15,6 +18,7 @@ function setup()
     renderer = new Renderer();
 
     noStroke();
+    frameRate(60);
 }
 
 function draw()
