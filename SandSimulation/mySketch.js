@@ -66,3 +66,7 @@ function draw()
 	graphics.DrawObjects(particles, div, div);
 	state = physics.Step(particles, state);
 }
+
+function windowResized(){
+    resizeCanvas(windowWidth, windowHeight);
+}

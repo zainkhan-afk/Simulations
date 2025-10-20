@@ -381,3 +381,8 @@ function draw()
 	// LoopPosition(planets);
 
 }
+
+
+function windowResized(){
+    resizeCanvas(windowWidth, windowHeight);
+}
