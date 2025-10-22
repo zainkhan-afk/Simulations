@@ -49,11 +49,30 @@ class Renderer {
             strokeWeight(5);
             stroke(0, 100, 200);
             line(person.leftFootPos.x, person.leftFootPos.y, person.leftFootAnchor.x, person.leftFootAnchor.y);
-
-
+            
+            
             stroke(0, 100, 200);
             line(person.rightFootPos.x, person.rightFootPos.y, person.rightFootAnchor.x, person.rightFootAnchor.y);
 
+            let leftFootAnchorDiff = p5.Vector.sub(person.leftFootAnchor, person.leftFootPos);
+            let rightFootAnchorDiff = p5.Vector.sub(person.rightFootAnchor, person.rightFootPos);
+            
+            strokeWeight(2);
+            stroke(0, 255, 0);
+            line(person.leftFootPos.x - 30*cos(leftFootAnchorDiff.heading()), person.leftFootPos.y - 30*sin(leftFootAnchorDiff.heading()), person.leftFootAnchor.x, person.leftFootAnchor.y);
+            stroke(255, 0, 0);
+            line(person.rightFootPos.x - 30*cos(rightFootAnchorDiff.heading()), person.rightFootPos.y - 30*sin(rightFootAnchorDiff.heading()), person.rightFootAnchor.x, person.rightFootAnchor.y);
+
+            stroke(0);
+            strokeWeight(1);
+            let angles = [-30, 0, 30];
+            for (let  i = 0; i < angles.length; i++){
+                let a = angles[i] / 180 * PI;
+                line(person.leftFootPos.x - 30*cos(person.vel.heading() + a), person.leftFootPos.y - 30*sin(person.vel.heading() + a), person.leftFootAnchor.x, person.leftFootAnchor.y);
+                line(person.rightFootPos.x - 30*cos(person.vel.heading() + a), person.rightFootPos.y - 30*sin(person.vel.heading() + a), person.rightFootAnchor.x, person.rightFootAnchor.y);
+            }
+
+            
             stroke(0);
             strokeWeight(1);
             push();
@@ -64,6 +83,13 @@ class Renderer {
             fill(0, 0, 0);
             circle(5, 0, 6);
             pop();
+            
+            strokeWeight(2);
+            stroke(0, 255, 0);
+            line(person.leftFootAnchor.x + 30*cos(person.vel.heading()), person.leftFootAnchor.y + 30*sin(person.vel.heading()), person.leftFootAnchor.x, person.leftFootAnchor.y);
+            stroke(255, 0, 0);
+            line(person.rightFootAnchor.x + 30*cos(person.vel.heading()), person.rightFootAnchor.y + 30*sin(person.vel.heading()), person.rightFootAnchor.x, person.rightFootAnchor.y);
+
             
 
             

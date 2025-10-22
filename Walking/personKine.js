@@ -66,6 +66,40 @@ class Person{
                 let leftFootAnchorDiff = p5.Vector.sub(this.leftFootAnchor, this.leftFootPos);
                 let rightFootAnchorDiff = p5.Vector.sub(this.rightFootAnchor, this.rightFootPos);
 
+                push();
+                translate(100, 100);
+                stroke(0, 255, 0);
+                line(0, 0, 25*cos(leftFootAnchorDiff.heading()), 25*sin(leftFootAnchorDiff.heading()));
+                stroke(255, 0, 0);
+                line(0, 0, 25*cos(rightFootAnchorDiff.heading()), 25*sin(rightFootAnchorDiff.heading()));
+                stroke(0, 0, 255);
+                line(0, 0, 25*cos(this.vel.heading()), 25*sin(this.vel.heading()));
+                pop();
+
+
+                push();
+                translate(200, 100);
+                stroke(0, 255, 0);
+                line(0, 0, 25*cos(leftFootAnchorDiff.angleBetween(this.vel)), 25*sin(leftFootAnchorDiff.angleBetween(this.vel)));
+                stroke(255, 0, 0);
+                line(0, 0, 25*cos(rightFootAnchorDiff.angleBetween(this.vel)), 25*sin(rightFootAnchorDiff.angleBetween(this.vel)));
+                stroke(0, 0, 255);
+                line(0, 0, 25*cos(this.vel.heading()), 25*sin(this.vel.heading()));
+                pop();
+                
+                // stroke(0);
+                // strokeWeight(1);
+                // let angles = [0];
+                // for (let  i = 0; i < angles.length; i++){
+                //         let a = angles[i] / 180 * PI;
+                //         line(30*cos(a), 30*sin(a), 0, 0);
+                //         line(30*cos(a), 30*sin(a), 0, 0);
+                // }
+
+
+
+
+
                 if (rightFootAnchorDiff.mag() > this.stepSize || leftFootAnchorDiff.mag() > this.stepSize)
                 {
                         this.halt = true;

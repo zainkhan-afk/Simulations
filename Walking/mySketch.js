@@ -3,7 +3,7 @@ let exampleClass;
 let people = [];
 let numPeople = 1;
 let renderer;
-let dt = 0.1;
+let dt = 0.2;
 let frameCtr = 0;
 
 function setup() 
@@ -19,7 +19,7 @@ function setup()
     }
     
     noStroke();
-    frameRate(60);
+    frameRate(1000);
 }
 
 function draw()
