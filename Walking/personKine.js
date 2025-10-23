@@ -2,6 +2,11 @@ class Person{
 	constructor(pos){
                 this.pos = pos;
                 this.vel = p5.Vector.fromAngle(random()*2*PI, random(1, 2));
+                this.acc = createVector(0, 0);
+
+                this.max_vel = this.vel.mag();
+                this.max_force = 0.1;
+
                 this.color = color(200, 200, 0);
 
                 this.bodyHeight = 20;
@@ -173,13 +178,21 @@ class Person{
                 // }
         }
         
+        ApplyForce(force){
+                force.limit(this.max_force);
+                this.acc.add(force);
+        }
+
         Update(dt)
         {
 
                 // if (this.pos.x < 0 || this.pos.x > windowWidth) { this.vel.x *= -1;}
                 // if (this.pos.y < 0 || this.pos.y > windowHeight) { this.vel.y *= -1;}
                 if (!this.halt){
+                        this.vel.add(p5.Vector.mult(this.acc, dt));
+                        this.vel.limit(this.max_vel);
                         this.pos.add(p5.Vector.mult(this.vel, dt));
+                        this.acc.set();
                 }
                 else {
                         console.log("\nHalted")

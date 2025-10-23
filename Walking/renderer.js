@@ -26,7 +26,7 @@ class Renderer {
     }
 
     render(people) {
-        this.DebugGrid();
+        // this.DebugGrid();
         for (let i = 0; i < people.length; i++) {
             let person = people[i];
             stroke(0);
