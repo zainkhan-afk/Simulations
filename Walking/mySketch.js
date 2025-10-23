@@ -1,6 +1,6 @@
 let people = [];
 let sim;
-let numPeople = 1;
+let numPeople = 100;
 let renderer;
 let dt = 0.2;
 let frameCtr = 0;
