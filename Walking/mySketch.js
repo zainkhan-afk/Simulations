@@ -25,9 +25,9 @@ function draw()
 {
     clear();
     background(100);
+    
     sim.Update(dt);
     renderer.render(sim);
-    frameCtr += 1;
 }
 
 

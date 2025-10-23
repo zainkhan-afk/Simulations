@@ -25,10 +25,10 @@ class Renderer {
         }
     }
 
-    render(people) {
+    render(sim) {
         // this.DebugGrid();
-        for (let i = 0; i < people.length; i++) {
-            let person = people[i];
+        for (let i = 0; i < sim.people.length; i++) {
+            let person = sim.people[i];
             stroke(0);
             strokeWeight(1);
 

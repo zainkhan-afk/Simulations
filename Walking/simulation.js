@@ -8,6 +8,8 @@ class Simulation{
     }
 
     Update(dt){
-
+        for (let i = 0; i < this.people.length; i++){
+            this.people[i].Update(dt);
+        }
     }
 }
