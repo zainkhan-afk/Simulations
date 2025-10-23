@@ -1,7 +1,7 @@
 class Person{
 	constructor(pos){
                 this.pos = pos;
-                this.vel = p5.Vector.fromAngle(random()*2*PI * 0, random(1, 2));
+                this.vel = p5.Vector.fromAngle(random()*2*PI, random(1, 2));
                 this.color = color(200, 200, 0);
 
                 this.bodyHeight = 20;
@@ -66,26 +66,26 @@ class Person{
                 let leftFootAnchorDiff = p5.Vector.sub(this.leftFootAnchor, this.leftFootPos);
                 let rightFootAnchorDiff = p5.Vector.sub(this.rightFootAnchor, this.rightFootPos);
 
-                push();
-                translate(100, 100);
-                stroke(0, 255, 0);
-                line(0, 0, 25*cos(leftFootAnchorDiff.heading()), 25*sin(leftFootAnchorDiff.heading()));
-                stroke(255, 0, 0);
-                line(0, 0, 25*cos(rightFootAnchorDiff.heading()), 25*sin(rightFootAnchorDiff.heading()));
-                stroke(0, 0, 255);
-                line(0, 0, 25*cos(this.vel.heading()), 25*sin(this.vel.heading()));
-                pop();
+                // push();
+                // translate(100, 100);
+                // stroke(0, 255, 0);
+                // line(0, 0, 25*cos(leftFootAnchorDiff.heading()), 25*sin(leftFootAnchorDiff.heading()));
+                // stroke(255, 0, 0);
+                // line(0, 0, 25*cos(rightFootAnchorDiff.heading()), 25*sin(rightFootAnchorDiff.heading()));
+                // stroke(0, 0, 255);
+                // line(0, 0, 25*cos(this.vel.heading()), 25*sin(this.vel.heading()));
+                // pop();
 
 
-                push();
-                translate(200, 100);
-                stroke(0, 255, 0);
-                line(0, 0, 25*cos(leftFootAnchorDiff.angleBetween(this.vel)), 25*sin(leftFootAnchorDiff.angleBetween(this.vel)));
-                stroke(255, 0, 0);
-                line(0, 0, 25*cos(rightFootAnchorDiff.angleBetween(this.vel)), 25*sin(rightFootAnchorDiff.angleBetween(this.vel)));
-                stroke(0, 0, 255);
-                line(0, 0, 25*cos(this.vel.heading()), 25*sin(this.vel.heading()));
-                pop();
+                // push();
+                // translate(200, 100);
+                // stroke(0, 255, 0);
+                // line(0, 0, 25*cos(leftFootAnchorDiff.angleBetween(this.vel)), 25*sin(leftFootAnchorDiff.angleBetween(this.vel)));
+                // stroke(255, 0, 0);
+                // line(0, 0, 25*cos(rightFootAnchorDiff.angleBetween(this.vel)), 25*sin(rightFootAnchorDiff.angleBetween(this.vel)));
+                // stroke(0, 0, 255);
+                // line(0, 0, 25*cos(this.vel.heading()), 25*sin(this.vel.heading()));
+                // pop();
                 
                 // stroke(0);
                 // strokeWeight(1);
