@@ -1,7 +1,7 @@
 class Person{
 	constructor(pos){
                 this.pos = pos;
-                this.vel = p5.Vector.fromAngle(random()*2*PI, random(1, 2));
+                this.vel = p5.Vector.fromAngle(random()*2*PI * 0, random(1, 2));
                 this.color = color(200, 200, 0);
 
                 this.bodyHeight = 20;
@@ -113,8 +113,8 @@ class Person{
                         return;
                 }
 
-                let leftFootMoving = leftFootAnchorDiff.mag() > this.halfStepSize && leftFootAnchorDiff.angleBetween(this.vel) < PI / 10;
-                let rightFootMoving = rightFootAnchorDiff.mag() > this.halfStepSize && rightFootAnchorDiff.angleBetween(this.vel) < PI / 10;
+                let leftFootMoving = leftFootAnchorDiff.mag() > this.halfStepSize && leftFootAnchorDiff.angleBetween(this.vel) < PI / 3;
+                let rightFootMoving = rightFootAnchorDiff.mag() > this.halfStepSize && rightFootAnchorDiff.angleBetween(this.vel) < PI / 3;
 
                 if (this.halt)
                 {
@@ -143,6 +143,7 @@ class Person{
                 {
                         this.movingFoot = 0;
                         leftFootAnchorDiff.setMag(this.stepSize);
+                        leftFootAnchorDiff.setHeading(this.vel.heading());
                         this.leftFootDesiredPos = p5.Vector.add(this.leftFootAnchor, leftFootAnchorDiff);
                         this.footStepPlanned = true;
                 }
@@ -150,6 +151,7 @@ class Person{
                 {
                         this.movingFoot = 1;
                         rightFootAnchorDiff.setMag(this.stepSize);
+                        rightFootAnchorDiff.setHeading(this.vel.heading());
                         this.rightFootDesiredPos = p5.Vector.add(this.rightFootAnchor, rightFootAnchorDiff);
                         this.footStepPlanned = true;
                 }
