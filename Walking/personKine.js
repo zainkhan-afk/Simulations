@@ -2,6 +2,11 @@ class Person{
 	constructor(pos){
                 this.pos = pos;
                 this.vel = p5.Vector.fromAngle(random()*2*PI, random(1, 2));
+                this.acc = createVector(0, 0);
+
+                this.max_vel = this.vel.mag();
+                this.max_force = 0.1;
+
                 this.color = color(200, 200, 0);
 
                 this.bodyHeight = 20;
@@ -66,6 +71,40 @@ class Person{
                 let leftFootAnchorDiff = p5.Vector.sub(this.leftFootAnchor, this.leftFootPos);
                 let rightFootAnchorDiff = p5.Vector.sub(this.rightFootAnchor, this.rightFootPos);
 
+                // push();
+                // translate(100, 100);
+                // stroke(0, 255, 0);
+                // line(0, 0, 25*cos(leftFootAnchorDiff.heading()), 25*sin(leftFootAnchorDiff.heading()));
+                // stroke(255, 0, 0);
+                // line(0, 0, 25*cos(rightFootAnchorDiff.heading()), 25*sin(rightFootAnchorDiff.heading()));
+                // stroke(0, 0, 255);
+                // line(0, 0, 25*cos(this.vel.heading()), 25*sin(this.vel.heading()));
+                // pop();
+
+
+                // push();
+                // translate(200, 100);
+                // stroke(0, 255, 0);
+                // line(0, 0, 25*cos(leftFootAnchorDiff.angleBetween(this.vel)), 25*sin(leftFootAnchorDiff.angleBetween(this.vel)));
+                // stroke(255, 0, 0);
+                // line(0, 0, 25*cos(rightFootAnchorDiff.angleBetween(this.vel)), 25*sin(rightFootAnchorDiff.angleBetween(this.vel)));
+                // stroke(0, 0, 255);
+                // line(0, 0, 25*cos(this.vel.heading()), 25*sin(this.vel.heading()));
+                // pop();
+                
+                // stroke(0);
+                // strokeWeight(1);
+                // let angles = [0];
+                // for (let  i = 0; i < angles.length; i++){
+                //         let a = angles[i] / 180 * PI;
+                //         line(30*cos(a), 30*sin(a), 0, 0);
+                //         line(30*cos(a), 30*sin(a), 0, 0);
+                // }
+
+
+
+
+
                 if (rightFootAnchorDiff.mag() > this.stepSize || leftFootAnchorDiff.mag() > this.stepSize)
                 {
                         this.halt = true;
@@ -79,8 +118,8 @@ class Person{
                         return;
                 }
 
-                let leftFootMoving = leftFootAnchorDiff.mag() > this.halfStepSize && leftFootAnchorDiff.angleBetween(this.vel) < PI / 10;
-                let rightFootMoving = rightFootAnchorDiff.mag() > this.halfStepSize && rightFootAnchorDiff.angleBetween(this.vel) < PI / 10;
+                let leftFootMoving = leftFootAnchorDiff.mag() > this.halfStepSize && leftFootAnchorDiff.angleBetween(this.vel) < PI / 3;
+                let rightFootMoving = rightFootAnchorDiff.mag() > this.halfStepSize && rightFootAnchorDiff.angleBetween(this.vel) < PI / 3;
 
                 if (this.halt)
                 {
@@ -109,6 +148,7 @@ class Person{
                 {
                         this.movingFoot = 0;
                         leftFootAnchorDiff.setMag(this.stepSize);
+                        leftFootAnchorDiff.setHeading(this.vel.heading());
                         this.leftFootDesiredPos = p5.Vector.add(this.leftFootAnchor, leftFootAnchorDiff);
                         this.footStepPlanned = true;
                 }
@@ -116,6 +156,7 @@ class Person{
                 {
                         this.movingFoot = 1;
                         rightFootAnchorDiff.setMag(this.stepSize);
+                        rightFootAnchorDiff.setHeading(this.vel.heading());
                         this.rightFootDesiredPos = p5.Vector.add(this.rightFootAnchor, rightFootAnchorDiff);
                         this.footStepPlanned = true;
                 }
@@ -137,13 +178,21 @@ class Person{
                 // }
         }
         
+        ApplyForce(force){
+                force.limit(this.max_force);
+                this.acc.add(force);
+        }
+
         Update(dt)
         {
 
                 // if (this.pos.x < 0 || this.pos.x > windowWidth) { this.vel.x *= -1;}
                 // if (this.pos.y < 0 || this.pos.y > windowHeight) { this.vel.y *= -1;}
                 if (!this.halt){
+                        this.vel.add(p5.Vector.mult(this.acc, dt));
+                        this.vel.limit(this.max_vel);
                         this.pos.add(p5.Vector.mult(this.vel, dt));
+                        this.acc.set();
                 }
                 else {
                         console.log("\nHalted")
