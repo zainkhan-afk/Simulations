@@ -1,8 +1,8 @@
 class CollatzRenderer{
 	constructor(pos){
         this.pos = pos;
-        this.angle = 8 / 180 * PI;
-        this.segmentLength = 10;
+        this.angle = 4 / 180 * PI;
+        this.segmentLength = 20;
         
         this.num_lines = 100;
         this.new_n = 1;
@@ -90,13 +90,10 @@ class CollatzRenderer{
                     if (j < this.last_drawn_idx[i]){
                         let h = i / this.angle_list[i].length * 255;
                         let s = 100;
-                        let v = 200;
-                        h = h%255;
+                        let v = 150;
+                        // h = h%255;
+                        
                         stroke(h, s, v, 0.2);
-                        // stroke(200, 100, 200);
-                        // fill(h);
-                        // rect(0, 0, 100, 100);
-                        // stroke(120, 0, 200, 20);
                         strokeWeight(log(j));
                         line(0, 0, 1 / log(i)*this.segmentLength, 0);
                         // line(0, 0, this.segmentLength, 0);
