@@ -24,8 +24,9 @@ class Simulation{
                     let animalCell = this.grid.PixelCoordinatesToCell(animal.pos);
                     if (animalCell)
                     {
-                        if (animalCell.foodMatter > 0){
-                            animal.consume(animalCell);
+                        let seekCell = this.grid.FindClosestGrassCell(animalCell.row, animalCell.col);
+                        if (animalCell == seekCell && seekCell.foodMatter > 0){
+                            animal.consume(seekCell);
                         }
                     }
                 }

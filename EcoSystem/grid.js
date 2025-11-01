@@ -28,4 +28,50 @@ class Grid{
         return this.GetCellAt(row, col);
     }
 
+    IsGrassCellStochastic(r, c, prob){
+        if (this.gridCells[r][c].type == "grass" && this.gridCells[r][c].foodMatter > 0)
+        {
+            if (random() < prob){
+                return this.gridCells[r][c];
+            }
+        }
+        return null;
+    }
+
+    FindClosestGrassCell(row, col){
+        let explored = [];
+        let grassCell = this.IsGrassCellStochastic(r, c, 0.7);
+        if (grassCell) { return grassCell; }
+        append(explored, [r, c])
+
+        let rowStart = row;
+        let rowEnd = row;
+        let colStart = col;
+        let colEnd = col;
+        for (let i = 0; i < 2; i++){
+            rowStart = max(row - 1, 0);
+            rowEnd = min(row + 1, this.numRows - 1);
+    
+            colStart = max(col - 1, 0);
+            colEnd = min(col + 1, this.numCols - 1);
+            for (let r = rowStart; r < rowEnd; r++){
+                for (let c = colStart; c < colEnd; c++){
+                    if (explored.includes([r, c])){
+                        continue;
+                    }
+                    let grassCell = this.IsGrassCellStochastic(r, c, 0.4);
+                    if (grassCell) { return grassCell; }
+                    append(explored, [r, c])
+                }
+            }
+        }
+        
+        let randomIndex = floor(random(explored.length));
+        return self.gridCells[explored[randomIndex][0]][explored[randomIndex][1]]
+
+    }
+
+    FindClosestEnemyCell(r, c){
+    }
+
 }
