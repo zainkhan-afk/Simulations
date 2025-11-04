@@ -8,7 +8,7 @@ function setup()
 function draw()
 {
     scene.Step();
-    background(0);
+    background(0, 100, 200);
     scene.Render();
 }
 
