@@ -40,9 +40,9 @@ class Grid{
 
     FindClosestGrassCell(row, col){
         let explored = [];
-        let grassCell = this.IsGrassCellStochastic(r, c, 0.7);
+        let grassCell = this.IsGrassCellStochastic(row, col, 0.7);
         if (grassCell) { return grassCell; }
-        append(explored, [r, c])
+        append(explored, [row, col])
 
         let rowStart = row;
         let rowEnd = row;
@@ -67,7 +67,7 @@ class Grid{
         }
         
         let randomIndex = floor(random(explored.length));
-        return self.gridCells[explored[randomIndex][0]][explored[randomIndex][1]]
+        return this.gridCells[explored[randomIndex][0]][explored[randomIndex][1]]
 
     }
 

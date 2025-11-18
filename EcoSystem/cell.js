@@ -26,6 +26,11 @@ class Cell{
         return createVector(this.col*this.size, this.row*this.size);
     }
 
+    GetCellCentroidPosition(){
+        let cellPos = this.GetCellPosition()
+        return createVector(cellPos.x + this.size/2, cellPos.y + this.size/2);
+    }
+
     Step(){
         // if (this.type == "grass") {
         //     if (this.foodMatter < this.maxGrowth){
