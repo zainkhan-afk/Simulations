@@ -1,6 +1,6 @@
 let renderer;
 let simulation;
-let cellSize = 20;
+let cellSize = 50;
 let numRows = 50;
 let numCols = 200;
 
