@@ -35,7 +35,11 @@ class Renderer{
         for (let i = 0; i < animals.length; i++)
         {
             stroke(0);
-            fill(animals[i].color);
+            if (animals[i].gender == "m"){
+                fill(animals[i].color_m);
+            }else{
+                fill(animals[i].color_f);
+            }
             circle(animals[i].pos.x, animals[i].pos.y, animals[i].size);
         }
     }

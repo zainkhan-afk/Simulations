@@ -22,10 +22,6 @@ class Simulation{
                 if (animal.type == "herbivor")
                 {
                     let animalCell = this.grid.PixelCoordinatesToCell(animal.pos);
-                    // console.log(animal.foodFound);
-                    // console.log(animal.foodCell);
-                    // console.log(animalCell);
-                    // console.log("-------------------------------------");
                     // Find animal cell
                     if (animalCell)
                     {
@@ -34,30 +30,19 @@ class Simulation{
                             if (animal.foodCell)
                             {
                                 // If on food cell
-                                // console.log("-------------------------");
-                                // console.log(animal.onFood)
-                                // console.log(animal.foodCell)
-                                // console.log(animalCell);
-                                if (animal.onFood){
-                                    // animal.vel.mult(0);
+                                if (animal.onTarget){
                                     // Eat if there is food in cell
                                     if (animal.foodCell.foodMatter > 0){
                                         animal.consume(animal.foodCell);
                                     }
                                     else{
                                         animal.foodFound = false;
-                                        animal.onFood = false;
+                                        animal.onTarget = false;
                                     }
                                 }
                                 // Approach food cell
                                 else{
                                     let steer = animal.seek(animal.foodCell.GetCellCentroidPosition());
-                                    console.log("Steering Towards Food", steer);
-                                    // console.log("Alive?", animal.alive);
-                                    console.log(animal.pos);
-                                    console.log(animal.foodCell.GetCellPosition());
-                                    console.log("-------------------------------------");
-
                                     animal.applyForce(steer);
                                 }
                             }
@@ -69,13 +54,35 @@ class Simulation{
                             animal.foodCell = this.grid.FindClosestGrassCell(animalCell.row, animalCell.col);
                             animal.foodFound = true;
                         }
-                        // if (animalCell == seekCell && seekCell.foodMatter > 0){
-                        //     animal.consume(seekCell);
-                        // }
                     }
                 }
             }
+            
             // Explore
+            else if (animal.gender == "m" && animal.findPartner){
+                for (let  j = 0; j < this.animals.length; j++){
+                    let otherAnimal = this.animals[j];
+                    if (otherAnimal == animal || 
+                        otherAnimal.gender == "m" || 
+                        !otherAnimal.readyToReproduce || 
+                        !otherAnimal.findPartner ||
+                        animal.name != otherAnimal.name
+                    ) { continue; }
+
+                    const diff = p5.Vector.sub(animal.pos, otherAnimal.pos);
+                    if (diff.mag() < 100){
+                        if (!animal.onTarget){
+                            let steer = animal.seek(otherAnimal.pos);
+                            animal.applyForce(steer);
+                        }
+                        else{
+                            let child = animal.reproduce(otherAnimal);
+                            animal.onTarget = false;
+                            append(this.animals, child);
+                        }
+                    }
+                }
+            }
         }
     }
 
