@@ -31,7 +31,7 @@ class Creature{
         this.readyToReproduce = false;
         this.findPartner = false;
         this.reproduceCooldown = 0;
-        this.reproduceCooldownThresh = 10;
+        this.reproduceCooldownThresh = 100;
 
         this.foodCell = null;
         this.foodFound = false;
@@ -133,11 +133,14 @@ class Creature{
     }
 
     reproduce(other) {
-        const child = new this.constructor(createVector(other.pos.x, other.pos.y));
         this.findPartner = false;
         other.findPartner = false;
         this.reproduceCooldown = 0;
         other.reproduceCooldown = 0;
-        return child
+        if (random() < 0.4){
+            const child = new this.constructor(createVector(other.pos.x + random(2, 7), other.pos.y + random(2, 7)));
+            return child
+        }
+        return null;
     }
 }

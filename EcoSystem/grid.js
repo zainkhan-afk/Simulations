@@ -57,8 +57,8 @@ class Grid{
         colStart = max(col - 1, 0);
         colEnd = min(col + 1, this.numCols - 1);
         
-        for (let r = rowStart; r < rowEnd; r++){
-            for (let c = colStart; c < colEnd; c++){
+        for (let r = rowStart; r <= rowEnd; r++){
+            for (let c = colStart; c <= colEnd; c++){
                 if (explored.includes([r, c])){
                     continue;
                 }

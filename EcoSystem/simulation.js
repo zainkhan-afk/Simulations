@@ -78,7 +78,9 @@ class Simulation{
                         else{
                             let child = animal.reproduce(otherAnimal);
                             animal.onTarget = false;
-                            append(this.animals, child);
+                            if (child){
+                                this.AddAnimal(child);
+                            }
                         }
                     }
                 }
@@ -89,6 +91,7 @@ class Simulation{
     step(){
         for (let  i = 0; i < this.animals.length; i++){
             if (!this.animals[i].alive){
+                this.animalCount[this.animals[i].name] -= 1;
                 this.animals.splice(0, 1);
             }
         }
