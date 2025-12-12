@@ -1,6 +1,7 @@
 #ifdef GL_ES
 precision mediump float;
 #endif
+
 #define PI 3.142
 varying vec3 vNormal;
 varying vec3 vPos;   // local position
@@ -8,10 +9,11 @@ varying vec3 vPos;   // local position
 uniform vec2 u_resolution; // Screen resolution
 uniform float u_time;      // Time for animation
 uniform vec3 u_sphere_pos;
+uniform vec3 u_light_pos;
 
 
 const vec3 sphereColor = vec3(1.0, 0.0, 0.5);
-const vec3 lighDirection = vec3(5.0, 5.0, 10.0);
+// const vec3 lighDirection = vec3(-5.0, -5.0, 15.0);
 const vec3 lightColor = vec3(0.2, 0.2, 0.8);
 
 
@@ -104,10 +106,10 @@ float fbm3D(vec3 p) {
     float amplitude = 10.0;
     float freq = 1.0;
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 8; i++) {
         value += amplitude * noise3D(p * freq);
         freq *= 2.0;
-        amplitude *= 0.5;
+        amplitude *= 0.1;
     }
     return value;
 }
@@ -116,15 +118,30 @@ float fbm3D(vec3 p) {
 // Biome maps (temperature + moisture)
 // ===========================================================
 vec3 biomeColor(vec3 p) {
-    float temp = noise3D(p * 0.6)*5.5 + 0.5;
-    float moist = noise3D(p * 0.5) * 0.5 + 0.31;
-
+    // float temp = noise3D(p * 0.6)*5.5 + 0.5;
+    // float moist = noise3D(p * 0.5) * 0.5 + 0.31;
     vec3 biome;
 
-    if (temp < 0.3) biome = vec3(0.8, 0.8, 1.0);         // tundra
-    else if (moist < 0.3) biome = vec3(0.8, 0.7, 0.2);  // desert
-    else if (temp > 0.7) biome = vec3(0.1, 0.7, 0.1);   // jungle
-    else biome = vec3(0.2, 0.5, 0.2);                   // forest
+    // if (temp < 0.3) biome = vec3(0.8, 0.8, 1.0);         // tundra
+    // else if (moist < 0.3) biome = vec3(0.8, 0.7, 0.2);  // desert
+    // else if (temp > 0.7) biome = vec3(0.1, 0.7, 0.1);   // jungle
+    // else biome = vec3(0.2, 0.5, 0.2);                   // forest
+    float pointLen = length(p);
+    if (pointLen < 1.0){
+        biome = vec3(0.0, 0.2, 0.6);
+    }
+    else if(pointLen < 1.05){
+        biome = vec3(0.4, 0.1, 0.1);
+    }
+    else if(pointLen <= 1.1){
+        biome = vec3(0.2, 0.5, 0.2);
+    }
+    else if(pointLen > 1.1){
+        biome = vec3(0.8, 0.8, 1.0);
+    }
+    // else if(pointLen >= 1.5){
+    //     biome = vec3(0.1, 0.7, 0.1);
+    // }
 
     return biome;
 }
@@ -135,27 +152,31 @@ void main() {
     vec2 uv = gl_FragCoord.xy;// / u_resolution;
 
     vec3 N = normalize(vNormal);       // surface normal
-    vec3 L = normalize(lighDirection);     // light direction
+    vec3 L = normalize(u_light_pos);     // light direction
 
     float diff = max(dot(N, L), 0.0);
     vec3 p = vPos;
 
     float size = 0.05;
-    p.x = floor(p.x / size) * size;
-    p.y = floor(p.y / size) * size;
-    p.z = floor(p.z / size) * size;
+    // p.x = floor(p.x / size) * size;
+    // p.y = floor(p.y / size) * size;
+    // p.z = floor(p.z / size) * size;
 
-    float n = fbm3D(p * 2.0);
+    // float n = fbm3D(p * 2.0);
     vec3 biome = biomeColor(p);
 
     vec3 land = vec3(0.2, 0.7, 0.3);
     vec3 sea  = vec3(0.0, 0.2, 0.6);
 
-    vec3 color = mix(sea, biome, smoothstep(0.2, 0.3, n));
-    // color = biome;
+    float ndotl = max(dot(N, L), 0.0);
+
+
+    // vec3 color = mix(sea, biome, smoothstep(0.2, 0.3, n));
+    vec3 color = biome;
+    // vec3 diffuse = color * ndotl;
     
-    size = 0.05;
-    color = floor(color / size) * size;
+    // size = 0.05;
+    // color = floor(color / size) * size;
     
     vec3 diffuse = color * diff; //lightColor * 
     gl_FragColor = vec4(diffuse, 1.0);
