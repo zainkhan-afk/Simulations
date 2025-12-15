@@ -10,13 +10,13 @@ function setup()
 function CheckInput()
 {
 	if (keyIsDown(87)){
-		car.forwardDirectionVel = -6;
+		car.forwardDirectionForce = -6;
 	}
 	else if (keyIsDown(83)){
-		car.forwardDirectionVel = 6;
+		car.forwardDirectionForce = 6;
 	}
 	else{
-		car.forwardDirectionVel = 0;
+		car.forwardDirectionForce = 0;
 	}
 	
 	if (keyIsDown(65)){
@@ -32,9 +32,9 @@ function CheckInput()
 
 function draw()
 {
+	background(255);
 	CheckInput();
 	car.Step();
 	
-	background(255);
 	graphics.Draw(car);
 }

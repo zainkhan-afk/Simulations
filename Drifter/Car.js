@@ -5,6 +5,8 @@ class Car{
 		this.linearAcceleration = createVector(0, 0);
 		this.heading = heading;
 		this.angularVelocity = 0;
+		this.maxVelocity = 5;
+		this.mass = 10;
 
 
 		this.carWidth = 40;
@@ -16,12 +18,6 @@ class Car{
 		this.carKinematics = new Kinematics(this.carWidth, this.carLength);
 
 		this.carSprite = loadImage('https://raw.githubusercontent.com/zainkhan-afk/Simulations/main/AckermannDriving/sprites/small_car_sprite.png');
-		// this.carSprite.resize(10, 5);
-
-
-		// this.carSprite = new Image();
-		// this.carSprite.crossOrigin = "";
-    	// this.carSprite.src = 'sprites/car_sprite.png';
 
 		this.carBaseBodyPts = [[- this.carLength/2, - this.carWidth/2], 
 							   [  this.carLength/2, - this.carWidth/2], 
@@ -33,7 +29,7 @@ class Car{
 		this.wheelTrail = [[],[],[],[]];
 
 		this.steerAngle = 0;
-		this.forwardDirectionVel = 0;
+		this.forwardDirectionForce = 0;
 		this.maximumICCRadius = 100;
 
 		this.carReactionAcceleration
@@ -64,38 +60,66 @@ class Car{
 			let y =  this.carBaseBodyPts[i][0]*sin(this.heading) + this.carBaseBodyPts[i][1]*cos(this.heading) + this.position.y;
 			append(this.carTranformedBodyPts, [x, y]);
 			append(this.wheelTrail[i], [x, y]);
-
-
-			// let wheelOffset = 0;
-
-			// if ( i == 0){
-			// 	wheelOffset = this.wheelAngles[0];
-			// }
-			// else if ( i == 3){
-			// 	wheelOffset = this.wheelAngles[1];
-			// }
-
-			// let wheelX1 = 10 + x + this.wheelRadius*cos(this.heading - wheelOffset);
-			// let wheelY1 = y + this.wheelRadius*sin(this.heading - wheelOffset);
-
-			// let wheelX2 = 10 + x - this.wheelRadius*cos(this.heading - wheelOffset);
-			// let wheelY2 = y - this.wheelRadius*sin(this.heading - wheelOffset);
-
-			// append(this.carTranformedWheelLinePts, [wheelX1, wheelY1, wheelX2, wheelY2]);
 		}
 
 		this.RemoveOldTyreTracks();
 	}
 
-	Step(){
-		this.linearAcceleration = createVector(0, 0);
-		this.linearVelocity = this.carKinematics.GetLinearVelociry(this.forwardDirectionVel, this.heading);
-		this.angularVelocity = this.carKinematics.GetAngularVelociry(this.forwardDirectionVel, this.steerAngle);
+	CalculateCentripetalForce(){
+		if (abs(this.steerAngle) < 0.01) { return createVector(0, 0); }
+		const turnRadius = tan(this.steerAngle)*this.carLength;
+		const vel = this.linearVelocity.mag();
+		const fCent = vel*vel * this.mass / turnRadius;
 
+		const centripetalForce = p5.Vector.fromAngle(this.heading - PI / 2, fCent);
+
+		return centripetalForce;
+
+		// const velSq = p5.Vector.mult(this.linearVelocity, this.linearVelocity);
+		// const fCent = p5.Vector.fromAngle(velSq.heading() + PI / 2, velSq.mag());
+		// return fCent.mult(this.mass/turnRadius);
+	}
+
+	Step(){
+		this.linearAcceleration = p5.Vector.fromAngle(this.heading, this.forwardDirectionForce);
+		this.linearAcceleration.mult(1/this.mass);
+		const centripetalForce = this.CalculateCentripetalForce();
+
+		// rotate(this.heading);
+		
+		if (centripetalForce.mag() < 5) {centripetalForce.set(0);}
+		else {
+			print(int(this.linearAcceleration.heading() * 180 / PI) - int(centripetalForce.heading() * 180 / PI), int(this.linearAcceleration.heading() * 180 / PI), int(centripetalForce.heading() * 180 / PI));
+			// centripetalForce.normalize();
+		}
+		centripetalForce.limit(7);
+		centripetalForce.mult(1 / this.mass);
+		strokeWeight(2);
+		push();
+		translate(this.position.x, this.position.y);
+		stroke(255, 0, 0);
+		line(0, 0, centripetalForce.x*25, centripetalForce.y*25);
+		stroke(0, 255, 0);
+		line(0, 0, this.linearAcceleration.x*25, this.linearAcceleration.y*25);
+		this.linearAcceleration.add(centripetalForce);
+		stroke(0, 0, 255);
+		line(0, 0, this.linearAcceleration.x*25, this.linearAcceleration.y*25);
+		stroke(0, 255, 255);
+		line(0, 0, this.linearVelocity.x*25, this.linearVelocity.y*25);
+		pop();
+		// print(this.linearAcceleration);
 		this.linearVelocity.add(this.linearAcceleration);
+		this.linearVelocity.limit(this.maxVelocity);
+		
+		this.angularVelocity = this.carKinematics.GetAngularVelociry(this.linearVelocity.mag(), -this.steerAngle);
+		
+		this.linearAcceleration.set(0);
 
 		this.position.add(this.linearVelocity);
 		this.heading += this.angularVelocity;
+
+		this.linearVelocity.mult(0.9);
+
 
 		this.CalculateCarPts();
 	}

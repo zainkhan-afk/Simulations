@@ -63,13 +63,13 @@ class Graphics{
 		}
 		
 		// Drawing the main car body sprite
-		car.carSprite.resize(100, 50);
-		push();
-		translate(car.position.x, car.position.y);
-		rotate(car.heading + PI);
-		imageMode(CENTER);
-		image(car.carSprite, 0, 0);
-		pop();
+		// car.carSprite.resize(100, 50);
+		// push();
+		// translate(car.position.x, car.position.y);
+		// rotate(car.heading + PI);
+		// imageMode(CENTER);
+		// image(car.carSprite, 0, 0);
+		// pop();
 		
 	}
 
