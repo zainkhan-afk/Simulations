@@ -1,7 +1,8 @@
 class Person{
 	constructor(pos){
                 this.pos = pos;
-                this.vel = p5.Vector.fromAngle(random()*2*PI, random(1, 2));
+                // this.vel = p5.Vector.fromAngle(random()*2*PI, random(1, 2));
+                this.vel = p5.Vector.fromAngle(PI/2, random(1, 2));
                 this.acc = createVector(0, 0);
 
                 this.max_vel = this.vel.mag();
@@ -127,12 +128,12 @@ class Person{
                         let leftAngleHeading = leftFootAnchorDiff.angleBetween(this.vel) / PI * 180;
                         let rightMag = rightFootAnchorDiff.mag();
                         let rightAngleHeading = rightFootAnchorDiff.angleBetween(this.vel) / PI * 180;
-                        console.log("Left");
-                        console.log("Mag: ", leftMag)
-                        console.log("Angle: ", leftAngleHeading);
-                        console.log("Right");
-                        console.log("Mag: ", rightMag)
-                        console.log("Angle: ", rightAngleHeading);
+                        // console.log("Left");
+                        // console.log("Mag: ", leftMag)
+                        // console.log("Angle: ", leftAngleHeading);
+                        // console.log("Right");
+                        // console.log("Mag: ", rightMag)
+                        // console.log("Angle: ", rightAngleHeading);
                 }
 
                 if (leftFootMoving && rightFootMoving)
@@ -185,23 +186,35 @@ class Person{
 
         Update(dt)
         {
-
+                let maxTurn = PI / 500;
                 // if (this.pos.x < 0 || this.pos.x > windowWidth) { this.vel.x *= -1;}
                 // if (this.pos.y < 0 || this.pos.y > windowHeight) { this.vel.y *= -1;}
                 if (!this.halt){
-                        this.vel.add(p5.Vector.mult(this.acc, dt));
+                        const newVal = p5.Vector.add(this.vel, p5.Vector.mult(this.acc, dt));
+
+                        let diff = newVal.heading() - this.vel.heading();
+                        while (diff > PI) diff -= TWO_PI;
+                        while (diff < -PI) diff += TWO_PI;
+
+                        diff = constrain(diff, -maxTurn, maxTurn);
+
+                        let newAngle = this.vel.heading() + diff;
+                        console.log("DIFF", diff*180/PI);
+                        this.vel = p5.Vector.fromAngle(newAngle).setMag(newVal.mag());
+                        
+                        // this.vel = newVal.copy();
                         this.vel.limit(this.max_vel);
                         this.pos.add(p5.Vector.mult(this.vel, dt));
-                        this.acc.set();
+                        this.acc.set(0);
                 }
                 else {
-                        console.log("\nHalted")
-                        console.log("FS Planned: ", this.footStepPlanned);
-                        console.log("Moving Foot: ", this.movingFoot)
-                        console.log("Left: ", this.leftFootPos, this.leftFootDesiredPos);
-                        console.log("Right: ", this.rightFootPos, this.rightFootDesiredPos);
-                        console.log("vel: ", this.vel.mag());
-                        console.log("step size: ", this.stepSize);
+                        // console.log("\nHalted")
+                        // console.log("FS Planned: ", this.footStepPlanned);
+                        // console.log("Moving Foot: ", this.movingFoot)
+                        // console.log("Left: ", this.leftFootPos, this.leftFootDesiredPos);
+                        // console.log("Right: ", this.rightFootPos, this.rightFootDesiredPos);
+                        // console.log("vel: ", this.vel.mag());
+                        // console.log("step size: ", this.stepSize);
                 }
                 this.UpdateAnchorAndDesiredFootPos();
                 this.UpdateFootPos(dt);

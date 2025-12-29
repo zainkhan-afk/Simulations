@@ -1,11 +1,14 @@
 class Car{
-	constructor(position, heading){
+	constructor(position, theta){
 		this.position = position;
 		this.linearVelocity = createVector(0, 0);
 		this.linearAcceleration = createVector(0, 0);
-		this.heading = heading;
+		this.theta = theta;
+		console.log("Theta", this.theta);
 		this.angularVelocity = 0;
-		this.maxVelocity = 5;
+		this.angularAcceleration = 0;
+		
+		this.maxVelocity = 10;
 		this.mass = 10;
 
 
@@ -71,8 +74,8 @@ class Car{
 		const vel = this.linearVelocity.mag();
 		const fCent = vel*vel * this.mass / turnRadius;
 
-		const centripetalForce = p5.Vector.fromAngle(this.heading - PI / 2, fCent);
-
+		const centripetalForce = p5.Vector.fromAngle(this.theta - PI / 2, fCent);
+		
 		return centripetalForce;
 
 		// const velSq = p5.Vector.mult(this.linearVelocity, this.linearVelocity);
@@ -80,45 +83,45 @@ class Car{
 		// return fCent.mult(this.mass/turnRadius);
 	}
 
-	Step(){
-		this.linearAcceleration = p5.Vector.fromAngle(this.heading, this.forwardDirectionForce);
-		this.linearAcceleration.mult(1/this.mass);
-		const centripetalForce = this.CalculateCentripetalForce();
-
-		// rotate(this.heading);
+	Step(dt){
+		// this.linearAcceleration = p5.Vector.fromAngle(this.theta, this.forwardDirectionForce);
+		// this.linearAcceleration.mult(1/this.mass);
+		// this.angularAcceleration = this.carKinematics.GetAngularAcceleration(this.forwardDirectionForce, car.mass, this.steerAngle);
+		// print(this.angularAcceleration);
 		
-		if (centripetalForce.mag() < 5) {centripetalForce.set(0);}
-		else {
-			print(int(this.linearAcceleration.heading() * 180 / PI) - int(centripetalForce.heading() * 180 / PI), int(this.linearAcceleration.heading() * 180 / PI), int(centripetalForce.heading() * 180 / PI));
-			// centripetalForce.normalize();
-		}
-		centripetalForce.limit(7);
-		centripetalForce.mult(1 / this.mass);
-		strokeWeight(2);
+		// DEBUG DRAW
 		push();
 		translate(this.position.x, this.position.y);
-		stroke(255, 0, 0);
-		line(0, 0, centripetalForce.x*25, centripetalForce.y*25);
-		stroke(0, 255, 0);
-		line(0, 0, this.linearAcceleration.x*25, this.linearAcceleration.y*25);
-		this.linearAcceleration.add(centripetalForce);
-		stroke(0, 0, 255);
-		line(0, 0, this.linearAcceleration.x*25, this.linearAcceleration.y*25);
-		stroke(0, 255, 255);
-		line(0, 0, this.linearVelocity.x*25, this.linearVelocity.y*25);
-		pop();
-		// print(this.linearAcceleration);
-		this.linearVelocity.add(this.linearAcceleration);
+		// rotwate(this.theta);
+		// line(0, 0, this.linearAcceleration.x, this.linearAcceleration.y);
+		// this.linearVelocity.add(p5.Vector.mult(this.linearAcceleration, dt));
 		this.linearVelocity.limit(this.maxVelocity);
+		line(0, 0, this.linearVelocity.x, this.linearVelocity.y);
+		pop();
+
 		
-		this.angularVelocity = this.carKinematics.GetAngularVelociry(this.linearVelocity.mag(), -this.steerAngle);
 		
+		// this.linearVelocity = this.carKinematics.GetLinearVelociry(this.forwardDirectionForce, this.theta);
+		this.angularVelocity = this.carKinematics.GetAngularVelociry2(this.linearVelocity, this.theta, this.steerAngle);
+		
+		
+		let centF = this.CalculateCentripetalForce();
+		if (centF.mag() > 5){
+			centF.limit(5);
+			print(centF);
+			centF.mult(1/this.mass);
+			this.linearAcceleration.add(p5.Vector.mult(centF, dt));
+
+		}
+
+		this.position.add(p5.Vector.mult(this.linearVelocity, dt));
+		
+		// this.angularVelocity += this.angularAcceleration*dt;
+		this.theta += this.angularVelocity*dt;
+		
+		// this.linearVelocity.mult(0.99);
 		this.linearAcceleration.set(0);
-
-		this.position.add(this.linearVelocity);
-		this.heading += this.angularVelocity;
-
-		this.linearVelocity.mult(0.9);
+		this.angularAcceleration = 0;
 
 
 		this.CalculateCarPts();

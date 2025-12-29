@@ -24,8 +24,12 @@ class Simulation{
     }
 
     Update(dt){
-        this.BoundaryRepulsion();
+        // this.BoundaryRepulsion();
         for (let i = 0; i < this.people.length; i++){
+            let dx = mouseX - this.people[i].pos.x;
+            let dy = mouseY - this.people[i].pos.y;
+            let df = createVector(dx, dy);
+            this.people[i].ApplyForce(df);
             this.people[i].Update(dt);
         }
     }

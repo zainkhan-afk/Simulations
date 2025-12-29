@@ -4,16 +4,39 @@ class Graphics{
 
 	DrawCar(car){
 		// Drawing main car body using lines
-		// strokeWeight(3);
-		// stroke(150);
-		// fill(150);
-		// // noFill();
-		// beginShape();
-		// for (let i = 0; i < car.carTranformedBodyPts.length; i++){
-		// 	vertex(car.carTranformedBodyPts[i][0], car.carTranformedBodyPts[i][1]);
-		// }
-		// endShape(CLOSE);
+		// noFill();
 		
+		push();
+		
+		strokeWeight(3);
+		stroke(150);
+		fill(150);
+		translate(car.position.x, car.position.y);
+		rotate(car.theta);
+		beginShape();
+		for (let i = 0; i < car.carBaseBodyPts.length; i++){
+			vertex(car.carBaseBodyPts[i][0], car.carBaseBodyPts[i][1]);
+		}
+		endShape(CLOSE);
+		
+		for (let i = 0; i < car.carBaseBodyPts.length; i++){
+			push();
+			translate(car.carBaseBodyPts[i][0], car.carBaseBodyPts[i][1]);
+			if (i == 1){
+				rotate(car.wheelAngles[0]);
+			}
+			if (i == 2){
+				rotate(car.wheelAngles[1]);
+			}
+
+			stroke(0);
+			fill(0);
+			rectMode(CENTER);
+			rect(0, 0, 20, 6);
+			pop();
+		}
+
+		pop();
 
 		// Drawing Wheels
 		// strokeWeight(6);
@@ -29,38 +52,44 @@ class Graphics{
 
 		
 		// Drawing wheel trails
-		strokeWeight(2);
-		stroke(100);
-		noFill();
-		for (let i = 0; i < car.wheelTrail.length; i++){
-			beginShape();
-			for (let j = 0; j < car.wheelTrail[i].length; j++)
-			{
-				vertex(car.wheelTrail[i][j][0], car.wheelTrail[i][j][1]);
-			}
-			endShape();
-		}
+		// strokeWeight(2);
+		// stroke(100);
+		// noFill();
+		// for (let i = 0; i < car.wheelTrail.length; i++){
+		// 	beginShape();
+		// 	for (let j = 0; j < car.wheelTrail[i].length; j++)
+		// 	{
+		// 		vertex(car.wheelTrail[i][j][0], car.wheelTrail[i][j][1]);
+		// 	}
+		// 	endShape();
+		// }
 
 		// Drawing the car wheels
-		stroke(0);
-		fill(0);
-		rectMode(CENTER);
-		for (let i = 0; i < car.carTranformedBodyPts.length; i++){
-			let wheelOffset = 0;
+		// stroke(0);
+		// fill(0);
+		// rectMode(CENTER);
+		// for (let i = 0; i < car.carTranformedBodyPts.length; i++){
+		// 	push();
+		// 	translate(car.position.x, car.position.x);
+		// 	rotate(car.theta);
+		// 	let wheelOffset = 0;
 
-			if ( i == 0){
-				wheelOffset = car.wheelAngles[0];
-			}
-			else if ( i == 3){
-				wheelOffset = car.wheelAngles[1];
-			}
+		// 	if ( i == 0){
+		// 		wheelOffset = car.wheelAngles[0];
+		// 	}
+		// 	else if ( i == 3){
+		// 		wheelOffset = car.wheelAngles[1];
+		// 	}
 
-			push();
-			translate(car.carTranformedBodyPts[i][0], car.carTranformedBodyPts[i][1]);
-			rotate(car.heading - wheelOffset);
-			rect(0, 0, 20, 6);
-			pop();
-		}
+		// 	// push();
+		// 	// translate(car.carBaseBodyPts[i][0], car.carBaseBodyPts[i][1]);
+		// 	// rotate(wheelOffset);
+		// 	rect(0, 0, 200, 60);
+		// 	// rect(car.carBaseBodyPts[i][0], car.carBaseBodyPts[i][1], 200, 60);
+		// 	// pop();
+		// 	pop();
+		// }
+
 		
 		// Drawing the main car body sprite
 		// car.carSprite.resize(100, 50);

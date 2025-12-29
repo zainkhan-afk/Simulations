@@ -36,8 +36,8 @@ class Person{
                         console.log("Foot1", this.foot1Prev - this.foot1, this.vel.mag());
                 }
 
-                if (this.pos.x < 0 || this.pos.x > windowWidth) { this.vel.x *= -1; }
-                if (this.pos.y < 0 || this.pos.y > windowHeight) { this.vel.y *= -1; }
+                // if (this.pos.x < 0 || this.pos.x > windowWidth) { this.vel.x *= -1; }
+                // if (this.pos.y < 0 || this.pos.y > windowHeight) { this.vel.y *= -1; }
         }
 
         Update(dt)
