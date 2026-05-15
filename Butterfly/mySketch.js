@@ -1,40 +1,35 @@
-let pos;
-let ang = 0;
-let wingDist = 300;
-let yOff = 300;
-
-function drawWing(side){
-    push();
-    translate(width/2 + side*wingDist, height/2 - yOff);
-    rotate(side*PI/6);
-    beginShape();
-    for (let x = -width/2; x < width/2; x++){
-        vertex(x, (x/10)**2);
-    }
-    endShape();
-    pop();
-}
+let numPts = 500;
+let z = 0;
+let noiseMaxAmp = 0.3;
+let dropletPos;
 
 
-function setup() 
+function setup()
 {
-	
-    createCanvas(windowWidth, windowHeight); 
+    createCanvas(windowWidth, windowHeight);
+    dropletPos = createVector(width/2, height/2);
 }
 
 function draw()
 {
-    background(0);
-    noFill();
-    stroke(200);
-    // for (let i = 0; i < 100; i++) {
-    //     stroke(100 + 50*sin(i/20 + ang));
-    //     ellipse(0, 0, 400 - 4*i, 400 - 4*i);
-    // }
+    translate(dropletPos.x, dropletPos.y);
+    background(250);
 
-    drawWing(1);
-    drawWing(-1);
-    ang += 0.1;
+    fill(28,163,236);
+    stroke(100, 0, 0);
+    beginShape();
+    for (let angle = 0; angle < TWO_PI; angle += TWO_PI / numPts){
+        let x = map(cos(angle), -1, 1, 0, noiseMaxAmp);
+        let y = map(sin(angle), -1, 1, 0, noiseMaxAmp);
+
+        let mag = map(noise(x, y, z), 0, 1, 150, 300);
+        let ptX = mag*cos(angle);
+        let ptY = mag*sin(angle);
+
+        vertex(ptX, ptY);
+    }
+    endShape(CLOSE);
+    z += 0.005;
 }
 
 
