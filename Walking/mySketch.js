@@ -2,7 +2,7 @@ let people = [];
 let sim;
 let numPeople = 1;
 let renderer;
-let dt = 0.3;
+let dt = 0.1;
 let frameCtr = 0;
 
 function setup() 
