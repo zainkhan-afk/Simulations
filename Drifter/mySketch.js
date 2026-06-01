@@ -13,8 +13,8 @@ function setup()
 function draw()
 {
     controller.update(car);
-    car.update(0.1);
     renderer.render(car);
+    car.update(0.1);
 }
 
 

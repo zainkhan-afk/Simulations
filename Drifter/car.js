@@ -22,6 +22,12 @@ class Car{
 
         this.muStatic = 0.1;
         this.muKinetic = this.muStatic - 0.9*this.muStatic;
+
+        this.normalForce = this.mass*10;
+        this.staticForce = this.muStatic*this.normalForce;
+        this.kineticForce = this.muKinetic*this.normalForce;
+
+        console.log("staticForce", this.staticForce, "kineticForce", this.kineticForce);
 	}
 
     update(dt)
@@ -37,8 +43,8 @@ class Car{
         this.pos.add(p5.Vector.mult(this.vel, dt));
         this.heading += this.headingDot*dt;
 
-        if (abs(this.engineVel) > 1){this.engineVel *= 0.9;}
-        else if (abs(this.engineVel) < 1){this.engineVel = 0;}
+        if (abs(this.engineVel) > 0.5){this.engineVel *= 0.99;}
+        else {this.engineVel = 0;}
 
         if (this.pos.x < -100) { this.pos.x = width + 100;}
         else if (this.pos.x > width+100) { this.pos.x = - 100;}

@@ -32,8 +32,25 @@ class Renderer{
         pop();
     }
 
+    renderForceIndicator(car){
+        let linearForce = car.acc*car.mass;
+
+        if (linearForce > car.staticForce){
+            fill(255, 0, 0);
+        }else{
+            fill(0, 255, 0);
+        }
+
+        
+        rect(10, 10, 100, 100);
+        fill(0);
+        stroke(0);
+        text(linearForce, 20, 50);
+    }
+
     render(car){
         background(0);
         this.renderCar(car);
+        this.renderForceIndicator(car);
     }
 }

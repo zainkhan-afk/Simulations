@@ -1,7 +1,7 @@
 class Controller {
     constructor() {
         this.steerAngle = QUARTER_PI; // 45 degrees
-        this.engineForce = 500;
+        this.engineForce = 100;
     }
 
     update(car) {
