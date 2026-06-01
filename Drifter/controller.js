@@ -1,7 +1,7 @@
 class Controller {
     constructor() {
-        this.steerAngle = QUARTER_PI; // 45 degrees
-        this.engineForce = 100;
+        this.steerAngle = PI / 6; // 45 degrees
+        this.engineAcc = 10;
     }
 
     update(car) {
@@ -21,10 +21,10 @@ class Controller {
             // Both pressed — no acceleration
         } else if (keyIsDown(87)) {
             // W — accelerate forward
-            car.acc = this.engineForce;
+            car.acc = this.engineAcc;
         } else if (keyIsDown(83)) {
             // S — accelerate backward
-            car.acc = -this.engineForce;
+            car.acc = -this.engineAcc;
         }
     }
 }
