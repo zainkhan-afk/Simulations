@@ -72,18 +72,23 @@ class Car{
         text(centrifugalForce, 20, 50);
 
         if (this.slipped){
-            this.vel.x += cos(this.heading)*this.engineVel;
-            this.vel.y += sin(this.heading)*this.engineVel;
-            this.vel.limit(this.maxVel);
+            // this.vel.add(p5.Vector.fromAngle(this.heading, this.engineVel));
+            // this.vel.limit(this.maxVel);
 
-            let velNorm = p5.Vector.normalize(this.vel);
-            let headingNorm = p5.Vector.fromAngle(this.heading);
-            let dotVal = headingNorm.dot(velNorm);
+            // let velNorm = p5.Vector.normalize(this.vel);
+            // let headingNorm = p5.Vector.fromAngle(this.heading);
+            // let dotVal = headingNorm.dot(velNorm);
             
-            this.velHeading.x = cos(this.heading)*this.vel.mag()*dotVal;
-            this.velHeading.y = sin(this.heading)*this.vel.mag()*dotVal;
+            this.velHeading.x = cos(this.heading)*this.engineVel;
+            this.velHeading.y = sin(this.heading)*this.engineVel;
 
-            console.log("dotVal", dotVal);
+            this.velHeading.x += 
+            this.velHeading.y += 
+
+            // console.log("dotVal", dotVal);
+            // console.log("this.velHeading", this.velHeading.heading(), "-", "this.heading", this.heading);
+            // console.log("this.vel", this.vel);
+
         }
         else{
             this.velHeading.x = cos(this.heading)*this.engineVel;

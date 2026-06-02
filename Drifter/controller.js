@@ -21,10 +21,10 @@ class Controller {
             // Both pressed — no acceleration
         } else if (keyIsDown(87)) {
             // W — accelerate forward
-            car.acc = this.engineAcc;
+            car.acc = p5.Vector.fromAngle(car.heading, this.engineAcc);
         } else if (keyIsDown(83)) {
             // S — accelerate backward
-            car.acc = -this.engineAcc;
+            car.acc = p5.Vector.fromAngle(PI+car.heading, this.engineAcc);
         }
     }
 }
