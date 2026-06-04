@@ -25,19 +25,19 @@ function draw()
         translate(moth.pos.x, moth.pos.y);
         fill(255, 255, 255);
         rotate(moth.vel.heading());
-        if (moth.animationPhase > 0){
-            circle(-moth.size/5, moth.flip*(moth.animationPhase*-10), moth.size/2);
-            circle(moth.size/5, moth.flip*(moth.animationPhase*-10), moth.size/2);
-        }
-        else{
-            ellipse(-moth.size/5, moth.flip*(moth.animationPhase*-7), moth.size/2, moth.size/5);
-            ellipse(moth.size/5, moth.flip*(moth.animationPhase*-7), moth.size/2, moth.size/5);
-        }
-        ellipse(0, 0, moth.size, moth.size/6);
+        // if (moth.animationPhase > 0){
+        //     circle(-moth.size/5, moth.flip*(moth.animationPhase*-10), moth.size/2);
+        //     circle(moth.size/5, moth.flip*(moth.animationPhase*-10), moth.size/2);
+        // }
+        // else{
+        //     ellipse(-moth.size/5, moth.flip*(moth.animationPhase*-7), moth.size/2, moth.size/5);
+        //     ellipse(moth.size/5, moth.flip*(moth.animationPhase*-7), moth.size/2, moth.size/5);
+        // }
+        ellipse(0, 0, moth.size/6, moth.size);
         pop();
         
-        let lightMoth = p5.Vector.sub(moth.pos, lightPos).normalize();
-        lightMoth.rotate(PI/2);
+        // let lightMoth = p5.Vector.sub(moth.pos, lightPos).normalize();
+        // lightMoth.rotate(PI/2);
         // moth.acc = lightPos.mult(moth.flip*2);
         // console.log(moth.acc);
         moth.step(0.1);

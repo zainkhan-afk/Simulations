@@ -24,7 +24,7 @@ class Moth{
     }
 
     flap(){
-        if (this.frame % 3 == 0){
+        if (this.frame % 2 == 0){
             let flapAcc = createVector();
             flapAcc.x = this.maxForce*cos(this.vel.heading())
             flapAcc.y = this.maxForce*sin(this.vel.heading())
