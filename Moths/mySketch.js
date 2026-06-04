@@ -1,11 +1,12 @@
 let lightPos;
 let moths = [];
+
 function setup() 
 {
 	
     createCanvas(windowWidth, windowHeight);
-    lightPos = createVector(windowWidth, windowHeight / 2)
-	append(moths, new Moth(createVector(windowWidth / 1.5 , windowHeight )));
+    lightPos = createVector(windowWidth / 2, 0)
+	append(moths, new Moth(createVector(width/2, height/2)));
     
     noStroke();
 }
@@ -37,10 +38,9 @@ function draw()
         
         let lightMoth = p5.Vector.sub(moth.pos, lightPos).normalize();
         lightMoth.rotate(PI/2);
-        moth.acc = lightMoth.mult(moth.flip*2);
         // moth.acc = lightPos.mult(moth.flip*2);
         // console.log(moth.acc);
-        moth.step();
+        moth.step(0.1);
     }
 }
 
