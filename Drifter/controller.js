@@ -1,19 +1,18 @@
 class Controller {
     constructor() {
-        this.steerAngle = PI / 6; // 45 degrees
         this.engineAcc = 10;
     }
 
     update(car) {
         // Steering
         if (keyIsDown(65) && keyIsDown(68)) {
-            car.wheelAngle = 0;
+            car.desiredSteerAngle = 0;
         } else if (keyIsDown(65)) {
-            car.wheelAngle = -this.steerAngle;
+            car.desiredSteerAngle = -car.maxSteerAngle;
         } else if (keyIsDown(68)) {
-            car.wheelAngle = this.steerAngle;
+            car.desiredSteerAngle = car.maxSteerAngle;
         } else {
-            car.wheelAngle = 0;
+            car.desiredSteerAngle = 0;
         }
 
         // Throttle — accelerate along the car's heading

@@ -3,6 +3,9 @@ class Car{
         this.pos = pos;
         this.heading = heading;
 
+        this.maxSteerAngle = PI / 6; // 45 degrees
+
+
         this.velHeading = createVector(0, 0);
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
@@ -10,7 +13,8 @@ class Car{
         this.headingDot = 0;
         this.mass = 10;
         
-        this.wheelAngle = 0;
+        this.currentSteerAngle = 0;
+        this.desiredSteerAngle = 0;
 
         this.maxVel = 100;
         
@@ -34,10 +38,18 @@ class Car{
         console.log("staticForce", this.staticForce, "kineticForce", this.kineticForce);
 	}
 
+    updateSteerAngle(){
+        if (abs(this.currentSteerAngle - this.desiredSteerAngle) < 0.01){
+            this.currentSteerAngle = this.desiredSteerAngle;
+            return;
+        }
+
+        this.currentSteerAngle = lerp(this.currentSteerAngle, this.desiredSteerAngle, 0.15);
+    }
+
     update(dt)
     {
-
-
+        this.updateSteerAngle();
         if (this.slipped){
             fill(255, 0, 0);
         }
@@ -52,20 +64,31 @@ class Car{
 
         this.vel.add(p5.Vector.mult(this.acc, dt));
         this.vel.limit(this.maxVel);
+        
+        let velNorm = p5.Vector.normalize(this.vel);
+        let headingNorm = p5.Vector.fromAngle(this.heading);
+        let forwardSpeed = this.vel.dot(p5.Vector.fromAngle(this.heading));
+        
+        this.velHeading = p5.Vector.mult(headingNorm, forwardSpeed);
+        
         this.pos.add(p5.Vector.mult(this.vel, dt));
 
-
-            // this.velHeading.x = cos(this.heading)*this.engineVel;
-            // this.velHeading.y = sin(this.heading)*this.engineVel;
         
         this.acc.set(0);
+        let velDir = this.vel.dot(p5.Vector.fromAngle(this.heading)) >= 0 ? 1 : -1;
 
-        this.headingDot = this.vel.mag()/this.carLength*tan(this.wheelAngle);
-        // this.pos.add(p5.Vector.mult(this.velHeading, dt));
+            
+        this.headingDot = (this.vel.mag()*velDir)/this.carLength*tan(this.currentSteerAngle);
         this.heading += this.headingDot*dt;
+        console.log("norm", this.currentSteerAngle);
 
-        // if (abs(this.engineVel) > 0.5){this.engineVel *= 0.99;}
-        // else {this.engineVel = 0;}
+        if (this.heading > PI) {
+            this.heading -= TWO_PI;
+        } else if (this.heading < -PI) {
+            this.heading += TWO_PI;
+        }
+
+        // this.vel.mult(0.99);
 
         if (this.pos.x < -100) { this.pos.x = width + 100;}
         else if (this.pos.x > width+100) { this.pos.x = - 100;}
