@@ -1,12 +1,15 @@
 let lightPos;
 let moths = [];
+let numMoths = 100;
 
 function setup() 
 {
 	
     createCanvas(windowWidth, windowHeight);
-    lightPos = createVector(windowWidth / 2, 0)
-	append(moths, new Moth(createVector(width/2, height/2)));
+    lightPos = createVector(width / 2, height/4)
+    for (let i = 0 ; i <  numMoths; i++){
+	    append(moths, new Moth(createVector(random(width/2 - 100, width/2 + 100), random(0.5*height, 0.7*height))));
+    }
     
     noStroke();
 }
@@ -24,23 +27,12 @@ function draw()
         push();
         translate(moth.pos.x, moth.pos.y);
         fill(255, 255, 255);
-        rotate(moth.vel.heading());
-        // if (moth.animationPhase > 0){
-        //     circle(-moth.size/5, moth.flip*(moth.animationPhase*-10), moth.size/2);
-        //     circle(moth.size/5, moth.flip*(moth.animationPhase*-10), moth.size/2);
-        // }
-        // else{
-        //     ellipse(-moth.size/5, moth.flip*(moth.animationPhase*-7), moth.size/2, moth.size/5);
-        //     ellipse(moth.size/5, moth.flip*(moth.animationPhase*-7), moth.size/2, moth.size/5);
-        // }
-        ellipse(0, 0, moth.size/6, moth.size);
+        rotate(moth.heading);
+        ellipse(0, 0, moth.size, moth.size/6);
         pop();
         
-        // let lightMoth = p5.Vector.sub(moth.pos, lightPos).normalize();
-        // lightMoth.rotate(PI/2);
-        // moth.acc = lightPos.mult(moth.flip*2);
-        // console.log(moth.acc);
-        moth.step(0.1);
+        moth.adjust(lightPos);
+        moth.step(deltaTime/300);
     }
 }
 

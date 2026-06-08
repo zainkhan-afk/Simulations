@@ -4,14 +4,17 @@ class Moth{
         this.pos = position;
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
-        this.gravity = createVector(0, 9);
+        this.gravity = createVector(0, 10);
+
+        this.heading = 0;
+        this.desiredHeading = 0;
         
         this.maxSpeed = 10;
-        this.flip = 1;
-        this.maxForce = -1000;
+        this.flappingFrequency = 2;
+        this.maxForce = 20;
         this.boundaryPadding = 100;
         this.boundaryCrossingMultiplier = 0.1;
-        this.animationPhase = -1;
+        // this.animationPhase = -1;
         this.calcualteCorners();
         this.frame = 0;
 	}
@@ -23,11 +26,21 @@ class Moth{
         this.yMax = windowHeight - this.boundaryPadding;
     }
 
+    adjust(lighPos){
+        let diff = p5.Vector.sub(lightPos, this.pos);
+        let target = diff.heading() + HALF_PI;
+        while (target > PI)  target -= TWO_PI;
+        while (target < -PI) target += TWO_PI;
+
+        target += random(-0.3, 0.3);
+        this.desiredHeading = target;
+    }
+
     flap(){
-        if (this.frame % 2 == 0){
-            let flapAcc = createVector();
-            flapAcc.x = this.maxForce*cos(this.vel.heading())
-            flapAcc.y = this.maxForce*sin(this.vel.heading())
+        if (this.frame % this.flappingFrequency == 0){
+            let flapAcc = createVector(0, this.maxForce).rotate(PI + this.heading);
+            // flapAcc.x = this.maxForce*cos(this.heading + HALF_PI)
+            // flapAcc.y = this.maxForce*sin(this.heading + HALF_PI)
             this.acc.add(flapAcc);
         }
     }
@@ -36,45 +49,21 @@ class Moth{
     {
         this.frame += 1;
         this.flap();
-        this.acc.add(this.gravity);
         this.vel.add(p5.Vector.mult(this.acc, dt));
+        this.vel.limit(50);
         this.pos.add(p5.Vector.mult(this.vel, dt));
-        this.acc.set(0);
+        this.acc.set(this.gravity);
 
-        // if (this.pos.x > this.xMax && this.acc.x > 0) {
-        //     let val = this.pos.x - this.xMax;
-        //     this.acc.x = -val* this.boundaryCrossingMultiplier;
-        //     this.flip *= -1;
-        // }
-
-        // else if (this.pos.x < this.xMin && this.acc.x < 0) {
-        //     let val = this.xMin - this.pos.x;
-        //     this.acc.x = val* this.boundaryCrossingMultiplier;
-        //     this.flip *= -1;
-        // }
-
-        // // console.log(this.pos.y, windowHeight)
-        // if (this.pos.y > this.yMax && this.acc.y > 0) {
-        //     let val = this.pos.y - this.yMax;
-        //     this.acc.y =  -val* this.boundaryCrossingMultiplier;
-        //     this.flip *= -1;
-        // }
-
-        // else if (this.pos.y < this.yMin && this.acc.y < 0) {
-        //     let val = this.yMin - this.pos.y;
-        //     this.acc.y =  val * this.boundaryCrossingMultiplier;
-        //     this.flip *= -1;
-        // }
+        let angleDiff = this.desiredHeading - this.heading;
+        while (angleDiff > PI)  angleDiff -= TWO_PI;
+        while (angleDiff < -PI) angleDiff += TWO_PI;
         
-        // // this.acc.limit(this.maxForce);
-        // this.vel.limit(this.maxSpeed);
-        
-        // this.pos.add(this.vel);
-        // this.vel.add(this.acc);
-        // this.acc.mult(0);
-        // this.frame += 1;
-        // if (this.frame % 3 == 0){
-        //     this.animationPhase *= -1;
-        // }
+        this.heading += angleDiff * 0.15;
+
+        if (this.heading > PI) {
+            this.heading -= TWO_PI;
+        } else if (this.heading < -PI) {
+            this.heading += TWO_PI;
+        }
     }
 }
