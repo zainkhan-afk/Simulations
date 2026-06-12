@@ -1,16 +1,29 @@
-let lightPos;
+let lights = [];
 let moths = [];
 let numMoths = 100;
 let light_disp = 1;
+
+
+function findClosestLightIndex(moth){
+    let minD = 10000;
+    let selectedLightIndex = -1;
+    for (let i = 0; i < lights.length; i++){
+        let light = lights[i];
+        let d = moth.pos.dist(light.pos);
+        if (d < minD){
+            selectedLightIndex = i;
+            minD = d;
+        }
+    }
+
+    return selectedLightIndex;
+}
 
 function setup() 
 {
 	
     createCanvas(windowWidth, windowHeight);
-    lightPos = createVector(width / 2, height/4)
-    // for (let i = 0 ; i <  numMoths; i++){
-	//     append(moths, new Moth(createVector(random(width/2 - 100, width/2 + 100), random(0.5*height, 0.7*height))));
-    // }
+    // append(lights, new Light(createVector(width / 2, height/4)));
     
     noStroke();
 }
@@ -20,15 +33,21 @@ function draw()
     clear();
     background(10);
     noStroke();
-    for (let i = 0; i < 25; i++){
-        fill(255, 255, 0, 10 + i*1);
-        circle(lightPos.x, lightPos.y, 5 + (25 - i)*3);
+
+    for (let j = 0; j < lights.length; j++){
+        for (let i = 0; i < 25; i++){
+            fill(255, 255, 0, 10 + i*1);
+            circle(lights[j].pos.x, lights[j].pos.y, 5 + (25 - i)*3);
+        }
     }
     
     strokeWeight(3);
     stroke(244, 150);
     for (let i = 0; i < moths.length; i++) {
         let moth = moths[i];
+        
+        let selectedLightIndex = findClosestLightIndex(moth);
+
         push();
         translate(moth.pos.x, moth.pos.y);
         // fill(255, 255, 255, 150);
@@ -38,7 +57,10 @@ function draw()
         line(0, -moth.size/4, 0, moth.size/10)
         pop();
         
-        moth.adjust(lightPos);
+        if (selectedLightIndex > -1){
+            let selectedLight = lights[selectedLightIndex];
+            moth.adjust(selectedLight.pos);
+        }
         moth.step(0.1);
     }
 
@@ -51,17 +73,16 @@ function draw()
             append(moths, newMoth);
         }
     }
-
-    // lightPos.x += light_disp;
-
-    // if (lightPos.x > width){
-    //     light_disp *= -1;
-    // }
-    // else if (lightPos.x < 0){
-    //     light_disp *= -1;
-    // }
 }
 
+
+function addLight(x, y) {
+    append(lights, new Light(createVector(x, y)));
+}
+
+function mousePressed() {
+    addLight(mouseX, mouseY);
+}
 
 function windowResized(){
     resizeCanvas(windowWidth, windowHeight);

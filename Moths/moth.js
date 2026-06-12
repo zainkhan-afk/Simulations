@@ -25,7 +25,7 @@ class Moth{
         this.yMax = windowHeight - this.boundaryPadding;
     }
 
-    adjust(lighPos){
+    adjust(lightPos){
         let diff = p5.Vector.sub(lightPos, this.pos);
         let target = diff.heading() + HALF_PI;
         while (target > PI)  target -= TWO_PI;
@@ -62,5 +62,11 @@ class Moth{
         } else if (this.heading < -PI) {
             this.heading += TWO_PI;
         }
+
+        if (this.pos.x > width*1.1){this.pos.x = -width*0.1;}
+        else if (this.pos.x < -width*0.1){this.pos.x = width*1.1;}
+
+        if (this.pos.y > height*1.1){this.pos.y = -height*0.1;}
+        else if (this.pos.y < -height*0.1){this.pos.y = height*1.1;}
     }
 }
