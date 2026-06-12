@@ -9,9 +9,9 @@ class Moth{
         this.heading = 0;
         this.desiredHeading = 0;
         
-        this.maxSpeed = 10;
-        this.flappingFrequency = 2;
-        this.maxForce = 20;
+        this.maxSpeed = 300;
+        this.flappingFrequency = 20;
+        this.maxForce = 300;
         this.boundaryPadding = 100;
         this.boundaryCrossingMultiplier = 0.1;
         // this.animationPhase = -1;
