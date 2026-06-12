@@ -1,6 +1,6 @@
 class Moth{
 	constructor(position){
-        this.size = 50;
+        this.size = 25;
         this.pos = position;
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
@@ -10,11 +10,10 @@ class Moth{
         this.desiredHeading = 0;
         
         this.maxSpeed = 300;
-        this.flappingFrequency = 20;
+        this.flappingFrequency = 10;
         this.maxForce = 300;
         this.boundaryPadding = 100;
         this.boundaryCrossingMultiplier = 0.1;
-        // this.animationPhase = -1;
         this.calcualteCorners();
         this.frame = 0;
 	}
@@ -32,15 +31,13 @@ class Moth{
         while (target > PI)  target -= TWO_PI;
         while (target < -PI) target += TWO_PI;
 
-        target += random(-0.3, 0.3);
+        target += random(-0.1, 0.1);
         this.desiredHeading = target;
     }
 
     flap(){
         if (this.frame % this.flappingFrequency == 0){
             let flapAcc = createVector(0, this.maxForce).rotate(PI + this.heading);
-            // flapAcc.x = this.maxForce*cos(this.heading + HALF_PI)
-            // flapAcc.y = this.maxForce*sin(this.heading + HALF_PI)
             this.acc.add(flapAcc);
         }
     }
@@ -58,7 +55,7 @@ class Moth{
         while (angleDiff > PI)  angleDiff -= TWO_PI;
         while (angleDiff < -PI) angleDiff += TWO_PI;
         
-        this.heading += angleDiff * 0.15;
+        this.heading += angleDiff * 0.1;
 
         if (this.heading > PI) {
             this.heading -= TWO_PI;
