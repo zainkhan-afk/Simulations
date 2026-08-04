@@ -17,6 +17,7 @@ function draw()
     background(0);
     controller.update(car);
     renderer.render(car);
+    car.step(0.1);
 }
 
 
