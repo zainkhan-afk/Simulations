@@ -1,9 +1,12 @@
 class State{
-    pos = createVector(0, 0);
-    vel = createVector(0, 0);
-    acc = createVector(0, 0);
+    constructor(pos, vel = createVector(0, 0), acc = createVector(0, 0)){
+        this.pos = pos;
+        this.vel = vel;
+        this.acc = acc;
+        this.heading = 0;
+    }
 
-    update(dt, other){
+    update(dt){
         this.pos.add(p5.vector.mult(this.vel, dt));
         this.vel.add(p5.vector.mult(this.acc, dt));
         this.acc.set(0);
@@ -13,7 +16,8 @@ class State{
 class Car{
     constructor(state){
         this.state = state;
-
+        this.throttle = 0;
+        
         this.mass = 10;
     }
 
