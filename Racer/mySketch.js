@@ -17,7 +17,6 @@ function setup()
 
 function draw()
 {
-    background(0);
     controller.update(car);
     let forces = physics.update(car);
     car.step(0.1, forces);

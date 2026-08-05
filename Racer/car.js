@@ -17,7 +17,7 @@ class Car{
     constructor(state){
         this.state = state;
         this.throttle = 0;
-        this.maxEngineForce = 100;
+        this.maxEngineForce = 1000;
         this.mass = 10;
     }
 

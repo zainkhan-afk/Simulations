@@ -1,7 +1,7 @@
 class World{
     constructor(){
         this.lines = [];
-        this.div = 50; 
+        this.div = 100; 
         this.numCols = int(width / this.div);
         this.numRows = int(height / this.div);
 

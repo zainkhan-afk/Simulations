@@ -13,7 +13,7 @@ class Renderer{
     }
 
     renderWorld(world){
-        stroke(200);
+        stroke(50);
         for (let world_line of world.lines){
             line(world_line.x1 + (world_line.x1 - this.camera.x)% world.div, 
                 world_line.y1, 
@@ -25,6 +25,7 @@ class Renderer{
     render(car, world){
         this.camera.x = car.state.pos.x;
         this.camera.y = car.state.pos.y;
+        background(200);
         this.renderWorld(world);
         this.renderCar(car);
     }
