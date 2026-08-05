@@ -9,7 +9,8 @@ class CarForces{
 
 class Physics{
     constructor(){       
-        this.Cdrag = 0.3;
+        this.Cdrag = 0.4257;
+        this.Crr = this.Cdrag*30;
     }
 
     calculateTractionForce(car){
@@ -17,6 +18,7 @@ class Physics{
     }
 
     calculateRollingResistanceForce(car){
+        return p5.Vector.mult(car.state.vel, -this.Crr);
     }
 
     calculateDragForce(car){
@@ -26,7 +28,8 @@ class Physics{
     update(car){
         let tractionForce = this.calculateTractionForce(car);
         let dragForce = this.calculateDragForce(car);
+        let rollingresistanceForce = this.calculateRollingResistanceForce(car);
 
-        return new CarForces(tractionForce, dragForce, createVector(0, 0));
+        return new CarForces(tractionForce, dragForce, rollingresistanceForce);
     }
 }
