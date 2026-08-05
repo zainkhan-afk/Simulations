@@ -18,17 +18,17 @@ class Car{
         this.state = state;
         this.throttle = 0;
         this.maxEngineForce = 100;
-        this.tractionForce = createVector(0, 0);
         this.mass = 10;
     }
 
-    applyForce(){
-        console.log(this.throttle);
-        // this.acc.set(p5.Vector.mult(this.tractionForce, 1/this.mass));
+    applyForce(forces){
+        // console.log(this.throttle);
+        let totalForce = p5.Vector.add(forces.tractionForce, forces.dragForce, forces.rollingResistanceForce);
+        this.state.acc.set(p5.Vector.mult(totalForce, 1/this.mass));
     }
 
-    step(dt){
-        this.applyForce();
+    step(dt, forces){
+        this.applyForce(forces);
         this.state.update(dt);
     }
 }
