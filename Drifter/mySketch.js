@@ -1,40 +1,23 @@
-let graphics;
 let car;
-function setup() 
-{
-	createCanvas(windowWidth, windowHeight);
-	graphics = new Graphics();
-	car = new Car(createVector(windowWidth / 2, windowHeight - 100), PI / 2);
-}
+let renderer;
+let controller;
 
-function CheckInput()
+function setup()
 {
-	if (keyIsDown(87)){
-		car.forwardDirectionVel = -6;
-	}
-	else if (keyIsDown(83)){
-		car.forwardDirectionVel = 6;
-	}
-	else{
-		car.forwardDirectionVel = 0;
-	}
-	
-	if (keyIsDown(65)){
-		car.steerAngle = PI / 5;
-	}
-	else if (keyIsDown(68)){
-		car.steerAngle = -PI / 5;
-	}
-	else{
-		car.steerAngle = 0;
-	}
+    createCanvas(windowWidth, windowHeight);
+    car = new Car(createVector(100, height/2), 0);
+    renderer = new Renderer();
+    controller = new Controller();
 }
 
 function draw()
 {
-	CheckInput();
-	car.Step();
-	
-	background(255);
-	graphics.Draw(car);
+    controller.update(car);
+    renderer.render(car);
+    car.update(0.1);
+}
+
+
+function windowResized(){
+    resizeCanvas(windowWidth, windowHeight);
 }
