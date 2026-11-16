@@ -15,6 +15,16 @@ const minVel = 1;
 let graphics;
 let logic;
 let boids = [];
+
+let isDark = true; // the site defaults to dark
+
+window.addEventListener("message", (e) => {
+  if (e.data && e.data.type === "theme") {
+    isDark = e.data.theme === "dark";
+  }
+});
+
+
 function setup() 
 {
 	createCanvas(windowWidth, windowHeight);
@@ -31,7 +41,7 @@ function setup()
 
 function draw()
 {
-	background(0);
+	background(isDark ? 0 : 200);
 	graphics.Draw(boids);
 	logic.Step(boids, deltaT);
 }

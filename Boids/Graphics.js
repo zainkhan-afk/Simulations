@@ -16,7 +16,7 @@ class Graphics{
 
 	Draw(boids){
 		noFill();
-		stroke(255);
+		stroke(isDark ? 255 : 0);
 		for (let  i = 0; i<boids.length; i++){
 			let p1 = this.RotatePoint(this.triangleP1, boids[i].rotation);
 			let p2 = this.RotatePoint(this.triangleP2, boids[i].rotation);
