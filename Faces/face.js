@@ -1,10 +1,10 @@
 class Face{
 	constructor(pos){
         this.pos = pos;
-        this.face_base = loadImage('/Faces/face_no_eye.png');
-        this.face_eye_holes = loadImage('/Faces/face_1.png');
-        this.face_eye_lids = loadImage('/Faces/eyelids.png');
-        this.eye = loadImage('/Faces/eye.png');
+        this.face_base = loadImage('face_no_eye.png');
+        this.face_eye_holes = loadImage('face_1.png');
+        this.face_eye_lids = loadImage('eyelids.png');
+        this.eye = loadImage('eye.png');
         
         this.face_image_height = 200;
         this.eye_image_height = 20;
@@ -57,6 +57,6 @@ class Face{
         this.right_eye_pos.limit(5);
         this.right_eye_pos.add(this.right_eye_pos_anchor);
 
-        this.angle += 0.1;
+        this.angle += random(-0.1, 0.3);
     }
 }
