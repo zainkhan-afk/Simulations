@@ -16,17 +16,27 @@ class Graphics{
 
 	Draw(boids){
 		noFill();
+		// for (let i = 0; i < boids.length; i++){
+		// 	stroke(isDark ? 50 : 180);
+		// 	beginShape();
+		// 	for(let j = 0; j < boids[i].tail.length; j++){
+		// 		vertex(boids[i].tail[j].x, boids[i].tail[j].y);
+		// 	}
+		// 	endShape();
+		// }
+
 		stroke(isDark ? 255 : 0);
 		for (let  i = 0; i<boids.length; i++){
-			let p1 = this.RotatePoint(this.triangleP1, boids[i].rotation);
-			let p2 = this.RotatePoint(this.triangleP2, boids[i].rotation);
-			let p3 = this.RotatePoint(this.triangleP3, boids[i].rotation);
-
-			p1.add(boids[i].pos);
-			p2.add(boids[i].pos);
-			p3.add(boids[i].pos);
-
-			triangle(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
+			
+			push();
+			translate(boids[i].pos);
+			rotate(boids[i].rotation);
+			
+			
+			triangle(this.triangleP1.x, this.triangleP1.y, 
+				this.triangleP2.x, this.triangleP2.y, 
+				this.triangleP3.x, this.triangleP3.y);
+				pop();
 		}
 	}
 }

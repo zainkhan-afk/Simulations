@@ -11,6 +11,7 @@ const turnFactor = 0.001;
 const deltaT = 0.5;
 const maxVel = 10;
 const minVel = 6;
+let frameCtr = 0;
 
 let graphics;
 let logic;
@@ -45,6 +46,7 @@ function draw()
 	background(isDark ? 0 : 200);
 	graphics.Draw(boids);
 	logic.Step(boids, mouseVec, deltaT);
+	frameCtr += 1;
 }
 
 function windowResized(){
