@@ -101,6 +101,7 @@ class Logic{
 	Step(boids, mouseVec, deltaT){
 		for (let  i = 0; i<boids.length; i++){
 			let boid1 = boids[i];
+			if (frameCtr%2 == i%2){boid1.Update(deltaT);continue;}
 
 			let neighborsInVisualRange = 0;
 			let closeD = createVector(0, 0);
@@ -108,6 +109,7 @@ class Logic{
 			let posAvg = createVector(0, 0);
 			for (let  j = 0; j<boids.length; j++){
 				if (i == j) {continue;}
+
 				let boid2 = boids[j];
 				let boidDiff = p5.Vector.sub(boid1.pos, boid2.pos);
 				let boidDist = boidDiff.mag();
@@ -142,7 +144,7 @@ class Logic{
 			posAvg.mult(this.centeringFactor);
 			let predatorDiff = p5.Vector.sub(boid1.pos, mouseVec);
 			if (predatorDiff.mag() < this.visualRange){
-				predatorDiff.mult(2 / (predatorDiff.mag()+0.9));
+				predatorDiff.mult(2 / (predatorDiff.mag()+1));
 				boid1.vel.add(predatorDiff);
 			}
 			
