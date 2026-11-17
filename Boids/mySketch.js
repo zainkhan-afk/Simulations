@@ -3,14 +3,14 @@ const protectedRadius = 20;
 const visualRange = 50;
 const borderMargin = 100;
 
-const avoidFactor = 0.01;
-const alignmentFactor = 0.05;
-const centeringFactor = 0.001;
+const avoidFactor = 0.07;
+const alignmentFactor = 0.1;
+const centeringFactor = 0.005;
 const turnFactor = 0.001;
 
-const deltaT = 1;
-const maxVel = 3;
-const minVel = 1;
+const deltaT = 0.5;
+const maxVel = 10;
+const minVel = 6;
 
 let graphics;
 let logic;

@@ -37,62 +37,112 @@ class Logic{
 	}
 
 
+	// Step(boids, deltaT){
+	// 	for (let  i = 0; i<boids.length; i++){
+
+	// 		let boid1 = boids[i];
+	// 		let neighboringBoids = 0;
+	// 		let vel = createVector(0, 0);
+	// 		let distInProtectedRange = createVector(0, 0);
+	// 		let alignmentVel = createVector(0, 0);
+	// 		let avgBoidPos = createVector(0, 0);
+			
+
+	// 		for (let  j = 0; j<boids.length; j++){
+	// 			let boid2 = boids[j];
+				
+	// 			if (i == j){
+	// 				continue;
+	// 			}
+
+	// 			let boidDiff = p5.Vector.sub(boid1.pos, boid2.pos);
+
+	// 			if (boidDiff.mag() < this.visualRange){
+	// 				// Seperation
+	// 				if(boidDiff.mag() < this.protectedRadius){
+	// 					distInProtectedRange.add(boidDiff);
+	// 				}
+	// 				// Alignment
+	// 				else{
+	// 					alignmentVel.add(boid2.vel);
+	// 					avgBoidPos.add(boid2.pos);
+	// 					neighboringBoids += 1;
+	// 				}
+	// 			}
+
+	// 		}
+
+	// 		if (neighboringBoids>0){
+	// 			alignmentVel.mult(1/neighboringBoids);
+	// 			alignmentVel.sub(boid1.vel);
+
+
+	// 			avgBoidPos.mult(1/neighboringBoids);
+	// 			avgBoidPos.sub(boid1.pos);
+	// 		}
+
+	// 		let turnVel = this.AvoidCorner(boid1);
+			
+
+	// 		distInProtectedRange.mult(this.avoidFactor);
+	// 		alignmentVel.mult(this.alignmentFactor);
+	// 		avgBoidPos.mult(this.centeringFactor);
+	// 		turnVel.mult(this.turnFactor);
+
+	// 		boid1.vel.add(distInProtectedRange);
+	// 		boid1.vel.add(alignmentVel);
+	// 		boid1.vel.add(avgBoidPos);
+	// 		boid1.vel.add(turnVel);
+
+	// 		boid1.Update(deltaT);
+	// 	}
+	// }
+
 	Step(boids, deltaT){
 		for (let  i = 0; i<boids.length; i++){
-
 			let boid1 = boids[i];
-			let neighboringBoids = 0;
-			let vel = createVector(0, 0);
-			let distInProtectedRange = createVector(0, 0);
-			let alignmentVel = createVector(0, 0);
-			let avgBoidPos = createVector(0, 0);
-			
 
+			let neighborsInVisualRange = 0;
+			let closeD = createVector(0, 0);
+			let velAvg = createVector(0, 0);
+			let posAvg = createVector(0, 0);
 			for (let  j = 0; j<boids.length; j++){
+				if (i == j) {continue;}
 				let boid2 = boids[j];
-				
-				if (i == j){
-					continue;
-				}
-
 				let boidDiff = p5.Vector.sub(boid1.pos, boid2.pos);
+				let boidDist = boidDiff.mag();
+				if (boidDist < this.visualRange){
+					//  SEPARATION
+					if (boidDist < this.protectedRadius){
+						closeD.add(boidDiff)
+					}
 
-				if (boidDiff.mag() < this.visualRange){
-					// Seperation
-					if(boidDiff.mag() < this.protectedRadius){
-						distInProtectedRange.add(boidDiff);
-					}
-					// Alignment
-					else{
-						alignmentVel.add(boid2.vel);
-						avgBoidPos.add(boid2.pos);
-						neighboringBoids += 1;
-					}
+					// ALIGNMENT
+					velAvg.add(boid2.vel);
+					neighborsInVisualRange += 1;
+
+					// COHESION
+					posAvg.add(boid2.pos);
+
 				}
-
 			}
-
-			if (neighboringBoids>0){
-				alignmentVel.mult(1/neighboringBoids);
-				alignmentVel.sub(boid1.vel);
-
-
-				avgBoidPos.mult(1/neighboringBoids);
-				avgBoidPos.sub(boid1.pos);
-			}
-
 			let turnVel = this.AvoidCorner(boid1);
-			
-
-			distInProtectedRange.mult(this.avoidFactor);
-			alignmentVel.mult(this.alignmentFactor);
-			avgBoidPos.mult(this.centeringFactor);
 			turnVel.mult(this.turnFactor);
 
-			boid1.vel.add(distInProtectedRange);
-			boid1.vel.add(alignmentVel);
-			boid1.vel.add(avgBoidPos);
+			closeD.mult(this.avoidFactor);
+			if (neighborsInVisualRange > 0) {
+				velAvg.mult(1/neighborsInVisualRange);
+				posAvg.mult(1/neighborsInVisualRange);
+			}
+			velAvg.sub(boid1.vel);
+			velAvg.mult(this.alignmentFactor);
+			posAvg.sub(boid1.pos);
+			posAvg.mult(this.centeringFactor);
+			
+			boid1.vel.add(closeD);
+			boid1.vel.add(velAvg);
 			boid1.vel.add(turnVel);
+			boid1.vel.add(posAvg);
 
 			boid1.Update(deltaT);
 		}
