@@ -3,9 +3,9 @@ const protectedRadius = 20;
 const visualRange = 50;
 const borderMargin = 100;
 
-const avoidFactor = 0.07;
+const avoidFactor = 0.03;
 const alignmentFactor = 0.1;
-const centeringFactor = 0.005;
+const centeringFactor = 0.0005;
 const turnFactor = 0.001;
 
 const deltaT = 0.5;
@@ -41,9 +41,10 @@ function setup()
 
 function draw()
 {
+	let mouseVec = createVector(mouseX, mouseY)
 	background(isDark ? 0 : 200);
 	graphics.Draw(boids);
-	logic.Step(boids, deltaT);
+	logic.Step(boids, mouseVec, deltaT);
 }
 
 function windowResized(){

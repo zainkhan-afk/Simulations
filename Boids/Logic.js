@@ -98,7 +98,7 @@ class Logic{
 	// 	}
 	// }
 
-	Step(boids, deltaT){
+	Step(boids, mouseVec, deltaT){
 		for (let  i = 0; i<boids.length; i++){
 			let boid1 = boids[i];
 
@@ -126,9 +126,11 @@ class Logic{
 
 				}
 			}
+
+			
 			let turnVel = this.AvoidCorner(boid1);
 			turnVel.mult(this.turnFactor);
-
+			
 			closeD.mult(this.avoidFactor);
 			if (neighborsInVisualRange > 0) {
 				velAvg.mult(1/neighborsInVisualRange);
@@ -138,6 +140,11 @@ class Logic{
 			velAvg.mult(this.alignmentFactor);
 			posAvg.sub(boid1.pos);
 			posAvg.mult(this.centeringFactor);
+			let predatorDiff = p5.Vector.sub(boid1.pos, mouseVec);
+			if (predatorDiff.mag() < this.visualRange){
+				predatorDiff.mult(2 / (predatorDiff.mag()+0.9));
+				boid1.vel.add(predatorDiff);
+			}
 			
 			boid1.vel.add(closeD);
 			boid1.vel.add(velAvg);
