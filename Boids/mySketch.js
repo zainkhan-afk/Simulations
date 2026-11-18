@@ -9,8 +9,8 @@ const centeringFactor = 0.0005;
 const turnFactor = 0.001;
 
 const deltaT = 0.5;
-const maxVel = 10;
-const minVel = 6;
+const maxVel = 6;
+const minVel = 4;
 let frameCtr = 0;
 
 let graphics;
