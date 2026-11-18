@@ -6,7 +6,7 @@ const borderMargin = 100;
 const avoidFactor = 0.03;
 const alignmentFactor = 0.1;
 const centeringFactor = 0.0005;
-const turnFactor = 0.001;
+const turnFactor = 0.005;
 
 const deltaT = 0.5;
 const maxVel = 5;
